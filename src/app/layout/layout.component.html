@@ -2,7 +2,7 @@
   <mat-sidenav #sidenav mode="side" [mode]="isScreenSmall ? 'over' : 'side'" [opened]="!isScreenSmall" class="color">
     <mat-nav-list>
       <h1 mat-list-item class="text">
-        <span>{{ rol }}</span>
+        <span>{{ currentUser.rol }}</span>
       </h1>
       <a mat-list-item routerLink="home/show">
         <span class="entry colorText">
@@ -19,7 +19,7 @@
       <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
         <mat-icon>menu</mat-icon>
       </button>
-      <h1>Bien Venido, {{ user }}</h1>
+      <h1>Bienvenido, {{ currentUser.name }}</h1>
       <span class="spacer"></span>
       <button mat-icon-button aria-label="Logout" (click)="logOut()">
         <mat-icon>exit_to_app</mat-icon>

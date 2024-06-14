@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-layout',
@@ -11,12 +12,14 @@ import { Router } from '@angular/router';
 export class LayoutComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isScreenSmall: boolean = false;
-  rol: string = "ADMIN";
-  user: string = "JHON DOE";
+  currentUser: any;
 
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router) {}
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
+    this.currentUser = this.userService.getLoggedInUser();
     this.breakpointObserver.observe(['(max-width: 800px)'])
       .subscribe(result => {
         this.isScreenSmall = result.matches;
@@ -35,7 +38,7 @@ export class LayoutComponent implements OnInit {
   }
 
   logOut(): void {
-
+    this.userService.logout();
     this.router.navigateByUrl('');
   }
 }
