@@ -1,0 +1,34 @@
+<mat-sidenav-container class="sidenav-container" [class.mat-drawer-opened]="!isScreenSmall && sidenav.opened" [class.mat-drawer-over]="isScreenSmall">
+  <mat-sidenav #sidenav mode="side" [mode]="isScreenSmall ? 'over' : 'side'" [opened]="!isScreenSmall" class="color">
+    <mat-nav-list>
+      <h1 mat-list-item class="text">
+        <span>{{ rol }}</span>
+      </h1>
+      <a mat-list-item routerLink="home/show">
+        <span class="entry colorText">
+          <mat-icon>house</mat-icon>
+          <span>Dashboard</span>
+        </span>
+      </a>
+      <!-- Agrega más enlaces de navegación según sea necesario -->
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="navbar color">
+      <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h1>Bien Venido, {{ user }}</h1>
+      <span class="spacer"></span>
+      <button mat-icon-button aria-label="Logout" (click)="logOut()">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="main-content">
+      <br>
+      <router-outlet></router-outlet>
+      <!-- Contenido dinámico de tu aplicación -->
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,67 @@
+/* Barra de herramientas fija en la parte superior */
+.mat-toolbar.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%; /* Asegura que siempre ocupe el 100% del ancho */
+  height: 64px; /* Altura fija de la toolbar */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  background-color: #363740; /* Color de fondo */
+  color: white; /* Color del texto */
+  padding: 0 20px; /* Espacio interno a los lados */
+  transition: width 0.3s; /* Transición suave para el cambio de ancho */
+}
+
+/* Ajusta el ancho de la toolbar cuando el sidenav está cerrado en pantallas grandes */
+.mat-drawer-opened:not(.mat-drawer-over) .mat-toolbar.navbar {
+  width: calc(100% - 200px); /* Resta el ancho del sidenav */
+}
+
+/* Contenedor del sidenav ajustado a la altura de la pantalla menos la altura de la barra de herramientas */
+.mat-sidenav-container {
+  height: 100vh; /* Ajusta según la altura de la pantalla */
+}
+
+/* Ajusta el ancho del sidenav */
+.mat-sidenav {
+  width: 200px; /* Ancho del sidenav, ajusta según tus necesidades */
+}
+
+/* Contenido principal ajustado por encima de la toolbar */
+.main-content {
+  padding-top: 64px; /* Ajusta el espacio para la toolbar */
+  padding-left: 20px; /* Ajusta el espacio a la izquierda según sea necesario */
+}
+
+/* Estilos para el color del sidebar */
+.color {
+  background-color: #363740;
+  color: white;
+}
+
+.colorText {
+  color: #fff; /* Color de los enlaces en el sidebar */
+}
+
+.text {
+  text-align: center;
+}
+
+.text h1 {
+  display: flex;
+  align-items: center; /* Centra verticalmente */
+  height: 100%; /* Asegura que ocupe toda la altura disponible */
+  margin: 0; /* Ajuste opcional para eliminar márgenes */
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+}
+
+.spacer {
+  flex: 1; /* Hace que ocupe todo el espacio disponible */
+}
