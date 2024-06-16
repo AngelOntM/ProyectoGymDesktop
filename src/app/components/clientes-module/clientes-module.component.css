@@ -1,0 +1,25 @@
+/* app.component.css */
+table {
+    width: 100%;
+  }
+  
+  th.mat-header-cell, td.mat-cell {
+    padding: 16px;
+  }
+  
+  mat-paginator {
+    margin-top: 20px;
+  }
+  
+  button {
+    margin-right: 8px;
+  }
+  
+  .mat-icon-button {
+    padding: 0;
+  }
+  
+  .mat-header-cell, .mat-cell {
+    text-align: center;
+  }
+  

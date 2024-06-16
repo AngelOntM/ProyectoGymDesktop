@@ -31,7 +31,8 @@
 /* Contenido principal ajustado por encima de la toolbar */
 .main-content {
   padding-top: 64px; /* Ajusta el espacio para la toolbar */
-  padding-left: 20px; /* Ajusta el espacio a la izquierda según sea necesario */
+  padding-left: 20px;
+  padding-right: 20px; /* Ajusta el espacio a la izquierda según sea necesario */
 }
 
 /* Estilos para el color del sidebar */
@@ -64,4 +65,11 @@
 
 .spacer {
   flex: 1; /* Hace que ocupe todo el espacio disponible */
+}
+
+/* Ajusta el estilo del h1 para que el texto se corte */
+h1 {
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  overflow: hidden; /* Oculta cualquier contenido que sobresalga */
+  text-overflow: ellipsis; /* Muestra puntos suspensivos (...) cuando el texto se corta */
 }

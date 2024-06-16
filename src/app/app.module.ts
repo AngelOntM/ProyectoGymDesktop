@@ -16,12 +16,21 @@ import { MatListModule } from '@angular/material/list';
 import { LayoutComponent } from './layout/layout.component';
 import { ClientesModuleComponent } from './components/clientes-module/clientes-module.component';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatTableFilterModule } from 'ng-mat-table-filter';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { EmpleadosModuleComponent } from './components/empleados-module/empleados-module.component';
+
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     LayoutComponent,
     ClientesModuleComponent,
+    EmpleadosModuleComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +41,12 @@ import { ClientesModuleComponent } from './components/clientes-module/clientes-m
     MatButtonModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatTableModule,
+    MatTableFilterModule,
+    MatPaginatorModule,
+    MatSortModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
