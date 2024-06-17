@@ -2,14 +2,14 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from 'src/app/user.service';
+import { environment } from 'src/enviroment/enviroment';
 
 interface User {
-  user_id: number;
-  first_name: string;
-  last_name: string;
+  id: number;
+  name: string;
   email: string;
-  password: string;
   phone_number: string;
   address: string;
   date_of_birth: string;
@@ -25,24 +25,22 @@ interface User {
 })
 export class ClientesModuleComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<User>;
-  myColumns: string[] = ['user_id', 'first_name', 'last_name', 'email', 'actions'];
+  myColumns: string[] = ['id', 'name', 'phone_number', 'email', 'actions'];
+  currentUser: any;
+  private apiURL = environment.apiURL;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  users: User[] = [
-    { user_id: 1, first_name: 'John', last_name: 'Doe', email: 'john.doe@example.com', password: '', phone_number: '1234567890', address: '123 Main St', date_of_birth: '1990-01-01', rol_id: 1, created_at: '2023-01-01T00:00:00', updated_at: '2023-01-01T00:00:00' },
-    { user_id: 2, first_name: 'Jane', last_name: 'Doe', email: 'jane.doe@example.com', password: '', phone_number: '1234567890', address: '123 Main St', date_of_birth: '1990-01-01', rol_id: 1, created_at: '2023-01-01T00:00:00', updated_at: '2023-01-01T00:00:00' }
-  ];
+  users: User[] = [];
 
-  constructor() {
+  constructor(private http: HttpClient, private userService: UserService) {
     this.dataSource = new MatTableDataSource<User>([]);
   }
 
   ngOnInit() {
-    this.getUsers().subscribe(users => {
-      this.dataSource.data = users;
-    });
+    this.currentUser = this.userService.getLoggedInUser();
+    this.getClientes();
   }
 
   ngAfterViewInit() {
@@ -50,18 +48,27 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  getUsers(): Observable<User[]> {
-    // Simulación de llamada a API
-    return of(this.users);
+  getClientes(){
+    this.http.get<any>(`${this.apiURL}/users/clientes`, {
+      headers: {
+        Authorization: `Bearer ${this.currentUser.token}`
+      }
+    }).subscribe({
+      next: (response) => {
+        this.users = response.clientes
+        this.dataSource.data = this.users;
+      },
+      error: (err) => {
+      }
+    });
   }
 
   editUser(user: User) {
     console.log('Edit:', user);
-    // Aquí iría la lógica para editar un usuario
   }
 
   deleteUser(user: User) {
-    this.users = this.users.filter(u => u.user_id !== user.user_id);
+    this.users = this.users.filter(u => u.id !== user.id);
     this.dataSource.data = this.users;
   }
 
@@ -71,7 +78,7 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
   }
 
   updateUser(updatedUser: User) {
-    const index = this.users.findIndex(user => user.user_id === updatedUser.user_id);
+    const index = this.users.findIndex(user => user.id === updatedUser.id);
     if (index !== -1) {
       this.users[index] = updatedUser;
       this.dataSource.data = this.users;
