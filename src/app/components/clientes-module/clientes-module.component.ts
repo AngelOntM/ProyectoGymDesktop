@@ -8,6 +8,7 @@ import { UserService } from 'src/app/user.service';
 import { environment } from 'src/enviroment/enviroment';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UpdateFormComponent } from './update-form/update-form.component';
 
 interface User {
   id: number;
@@ -68,7 +69,16 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
   }
 
   editUser(user: User) {
-    console.log('Edit:', user);
+    const dialogRef = this.dialog.open(UpdateFormComponent, {
+      width: '400px',
+      data: user
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.updateUser(result, user.id);
+      }
+    });
   }
 
   deleteUser(user: User) {
@@ -132,6 +142,32 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         Swal.fire('Error', 'No se pudo registrar el cliente', 'error');
+      }
+    }).add(() => {
+      Swal.close();
+    });
+  }
+
+  updateUser(user: User, id: any) {
+    Swal.fire({
+      title: 'Actualizando cliente...',
+      text: 'Por favor espera',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+    this.http.put<any>(`${this.apiURL}/users/`+ id, user,{
+      headers: {
+        Authorization: `Bearer ${this.currentUser.token}`
+      }
+    }).subscribe({
+      next: (response) => {
+        Swal.fire('Cliente actualizado', 'El cliente ha sido actualizado con éxito', 'success');
+        this.getClientes();
+      },
+      error: (err) => {
+        Swal.fire('Error', 'No se pudo actualizar el cliente', 'error');
       }
     }).add(() => {
       Swal.close();

@@ -31,6 +31,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { UpdateFormComponent } from './components/clientes-module/update-form/update-form.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     ClientesModuleComponent,
     EmpleadosModuleComponent,
     RegisterFormComponent,
+    UpdateFormComponent,
   ],
   imports: [
     BrowserModule,
