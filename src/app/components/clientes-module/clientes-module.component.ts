@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 import { UserService } from 'src/app/user.service';
 import { environment } from 'src/enviroment/enviroment';
 
@@ -48,17 +49,18 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  getClientes(){
+  getClientes() {
     this.http.get<any>(`${this.apiURL}/users/clientes`, {
       headers: {
         Authorization: `Bearer ${this.currentUser.token}`
       }
     }).subscribe({
       next: (response) => {
-        this.users = response.clientes
+        this.users = response.clientes;
         this.dataSource.data = this.users;
       },
       error: (err) => {
+        Swal.fire('Error', 'No se pudo cargar la lista de clientes', 'error');
       }
     });
   }
@@ -68,20 +70,35 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
   }
 
   deleteUser(user: User) {
-    this.users = this.users.filter(u => u.id !== user.id);
-    this.dataSource.data = this.users;
+    console.log(user.id)
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: `¡No podrás revertir esto!`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.delete<any>(`${this.apiURL}/users/${user.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.currentUser.token}`
+          }
+        }).subscribe({
+          next: (response) => {
+            Swal.fire('¡Eliminado!', response.message, 'success');
+            this.getClientes();
+          },
+          error: (err) => {
+            Swal.fire('Error', err.error.message || 'Ha ocurrido un error', 'error');
+          }
+        });
+      }
+    });
   }
 
-  addUser(user: User) {
-    this.users.push(user);
-    this.dataSource.data = this.users;
-  }
+  openAddUserDialog() {
 
-  updateUser(updatedUser: User) {
-    const index = this.users.findIndex(user => user.id === updatedUser.id);
-    if (index !== -1) {
-      this.users[index] = updatedUser;
-      this.dataSource.data = this.users;
-    }
-  }
+  }  
+
 }
