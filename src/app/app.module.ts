@@ -23,6 +23,14 @@ import { MatSortModule } from '@angular/material/sort';
 import { EmpleadosModuleComponent } from './components/empleados-module/empleados-module.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { RegisterFormComponent } from './components/clientes-module/register-form/register-form.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -31,6 +39,7 @@ import { HttpClientModule } from '@angular/common/http';
     LayoutComponent,
     ClientesModuleComponent,
     EmpleadosModuleComponent,
+    RegisterFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +55,13 @@ import { HttpClientModule } from '@angular/common/http';
     MatTableFilterModule,
     MatPaginatorModule,
     MatSortModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

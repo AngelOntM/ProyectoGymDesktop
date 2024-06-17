@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { UserService } from 'src/app/user.service';
 import { environment } from 'src/enviroment/enviroment';
+import { RegisterFormComponent } from './register-form/register-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 interface User {
   id: number;
@@ -35,7 +37,7 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
 
   users: User[] = [];
 
-  constructor(private http: HttpClient, private userService: UserService) {
+  constructor(private http: HttpClient, private userService: UserService, public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<User>([]);
   }
 
@@ -98,7 +100,42 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
   }
 
   openAddUserDialog() {
+    const dialogRef = this.dialog.open(RegisterFormComponent, {
+      width: '400px'
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addUser(result);
+      }
+    });
+  }
+  
+  addUser(user: User) {
+    Swal.fire({
+      title: 'Registrando cliente...',
+      text: 'Por favor espera',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
 
-  }  
+    this.http.post<any>(`${this.apiURL}/register/user`, user, {
+      headers: {
+        Authorization: `Bearer ${this.currentUser.token}`
+      }
+    }).subscribe({
+      next: (response) => {
+        Swal.fire('Cliente registrado', 'El cliente ha sido registrado con éxito', 'success');
+        this.getClientes();
+      },
+      error: (err) => {
+        Swal.fire('Error', 'No se pudo registrar el cliente', 'error');
+      }
+    }).add(() => {
+      Swal.close();
+    });
+  }
 
 }
