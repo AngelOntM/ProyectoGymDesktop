@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import { UserService } from 'src/app/user.service';
 import { environment } from 'src/enviroment/enviroment';
 import { MatDialog } from '@angular/material/dialog';
+import { EmployeeUpdateFormComponent } from './update-form/update-form.component';
+import { EmployeeRegisterFormComponent } from './register-form/register-form.component';
 
 interface Employee {
   id: number;
@@ -66,16 +68,110 @@ export class EmpleadosModuleComponent implements OnInit, AfterViewInit {
     });
   }
 
-  deleteUser(employee: Employee){
-
+  editUser(user: Employee) {
+    const dialogRef = this.dialog.open(EmployeeUpdateFormComponent, {
+      width: '400px',
+      data: user
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.updateUser(result, user.id);
+      }
+    });
   }
 
-  openAddUserDialog(){
-
+  deleteUser(user: Employee) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: `¡No podrás revertir esto!`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.delete<any>(`${this.apiURL}/users/${user.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.currentUser.token}`
+          }
+        }).subscribe({
+          next: (response) => {
+            Swal.fire('¡Eliminado!', response.message, 'success');
+            this.getEmpleados();
+          },
+          error: (err) => {
+            Swal.fire('Error', err.error.message || 'Ha ocurrido un error', 'error');
+          }
+        });
+      }
+    });
   }
 
-  editUser(employee: Employee){
-
+  openAddUserDialog() {
+    const dialogRef = this.dialog.open(EmployeeRegisterFormComponent, {
+      width: '400px'
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addUser(result);
+      }
+    });
   }
+  
+  addUser(user: Employee) {
+    Swal.fire({
+      title: 'Registrando empleado...',
+      text: 'Por favor espera',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    this.http.post<any>(`${this.apiURL}/register/employee`, user, {
+      headers: {
+        Authorization: `Bearer ${this.currentUser.token}`
+      }
+    }).subscribe({
+      next: (response) => {
+        Swal.fire('Empleado registrado', 'El empleado ha sido registrado con éxito', 'success');
+        this.getEmpleados();
+      },
+      error: (err) => {
+        Swal.fire('Error', 'No se pudo registrar el empleado', 'error');
+      }
+    }).add(() => {
+      Swal.close();
+    });
+  }
+
+  updateUser(user: Employee, id: any) {
+    Swal.fire({
+      title: 'Actualizando empleado...',
+      text: 'Por favor espera',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+    this.http.put<any>(`${this.apiURL}/users/`+ id, user,{
+      headers: {
+        Authorization: `Bearer ${this.currentUser.token}`
+      }
+    }).subscribe({
+      next: (response) => {
+        Swal.fire('Empleado actualizado', 'El empleado ha sido actualizado con éxito', 'success');
+        this.getEmpleados();
+      },
+      error: (err) => {
+        Swal.fire('Error', 'No se pudo actualizar el empleado', 'error');
+      }
+    }).add(() => {
+      Swal.close();
+    });
+  }
+
 
 }
