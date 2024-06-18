@@ -82,7 +82,6 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
   }
 
   deleteUser(user: User) {
-    console.log(user.id)
     Swal.fire({
       title: '¿Estás seguro?',
       text: `¡No podrás revertir esto!`,
