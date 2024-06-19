@@ -51,23 +51,83 @@ export class LoginComponent {
     });
 
     this.http.post<any>(`${this.apiURL}/login/employee`, credentials).subscribe({
-      next: (response) => {
-        const user = {
-          rol: response.user.rol.rol_name,
-          name: response.user.name,
-          token: response.token,
-        };
-        this.session.setLoggedInUser(user);
+      next: async (response) => {
+        if(response.user.rol_id === 1) {
+          const { value: code } = await Swal.fire({
+            title: 'Código 2FA requerido',
+            input: 'text',
+            inputLabel: 'Ingrese su código 2FA',
+            inputPlaceholder: 'Código 2FA',
+            showCancelButton: true,
+            confirmButtonText: 'Verificar',
+            cancelButtonText: 'Cancelar',
+            preConfirm: async (code) => {
+              if (!code) {
+                Swal.showValidationMessage('Debe ingresar un código');
+                return;
+              }
+              return code;
+            }
+          });
 
-        Swal.fire({
-          icon: 'success',
-          title: '¡Inicio de sesión exitoso!',
-          text: `Bienvenido ${response.user.name}`,
-          timer: 2500,
-          showConfirmButton: false
-        }).then(() => {
-          this.router.navigateByUrl('/home');
-        });
+          if (code) {
+            const codeAsInteger = parseInt(code, 10);
+            const body = { email:response.user.email, two_factor_code:codeAsInteger }
+            Swal.fire({
+              title: 'Verificando 2FA...',
+              text: 'Por favor espera un momento',
+              allowOutsideClick: false,
+              didOpen: () => {
+                Swal.showLoading();
+              }
+            });
+            this.http.post<any>(`${this.apiURL}/verify-2fa`, body).subscribe({
+              next: (verifyResponse) => {
+                const user = {
+                  rol: response.user.rol.rol_name,
+                  name: response.user.name,
+                  token: verifyResponse.token,
+                };
+                this.session.setLoggedInUser(user);
+
+                Swal.fire({
+                  icon: 'success',
+                  title: '¡Inicio de sesión exitoso!',
+                  text: `Bienvenido ${response.user.name}`,
+                  timer: 2500,
+                  showConfirmButton: false
+                }).then(() => {
+                  this.router.navigateByUrl('/home');
+                });
+              },
+              error: (err) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error de verificación 2FA',
+                  text: 'Error al verificar el código 2FA',
+                });
+                console.error(err);
+              }
+            });
+          }
+        } else if(response.user.rol_id === 2) {
+          const user = {
+            rol: response.user.rol.rol_name,
+            name: response.user.name,
+            token: response.token,
+          };
+          this.session.setLoggedInUser(user);
+
+          Swal.fire({
+            icon: 'success',
+            title: '¡Inicio de sesión exitoso!',
+            text: `Bienvenido ${response.user.name}`,
+            timer: 2500,
+            showConfirmButton: false
+          }).then(() => {
+            this.router.navigateByUrl('/home');
+          });
+        }
       },
       error: (err) => {
         Swal.fire({

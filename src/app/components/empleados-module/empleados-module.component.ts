@@ -156,7 +156,7 @@ export class EmpleadosModuleComponent implements OnInit, AfterViewInit {
         Swal.showLoading();
       }
     });
-    this.http.put<any>(`${this.apiURL}/users/`+ id, user,{
+    this.http.put<any>(`${this.apiURL}/users/admin/`+ id, user,{
       headers: {
         Authorization: `Bearer ${this.currentUser.token}`
       }
