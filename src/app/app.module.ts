@@ -34,6 +34,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { UpdateFormComponent } from './components/clientes-module/update-form/update-form.component';
 import { EmployeeRegisterFormComponent } from './components/empleados-module/register-form/register-form.component';
 import { EmployeeUpdateFormComponent } from './components/empleados-module/update-form/update-form.component';
+import { MembresiasModuleComponent } from './components/membresias-module/membresias-module.component';
+import { MembresiaRegisterFormComponent } from './components/membresias-module/register-form/register-form.component';
+import { MembresiaUpdateFormComponent } from './components/membresias-module/update-form/update-form.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,10 @@ import { EmployeeUpdateFormComponent } from './components/empleados-module/updat
     RegisterFormComponent,
     UpdateFormComponent,
     EmployeeRegisterFormComponent,
-    EmployeeUpdateFormComponent
+    EmployeeUpdateFormComponent,
+    MembresiasModuleComponent,
+    MembresiaRegisterFormComponent,
+    MembresiaUpdateFormComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +74,8 @@ import { EmployeeUpdateFormComponent } from './components/empleados-module/updat
     MatInputModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
