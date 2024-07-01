@@ -1,6 +1,6 @@
   <div class="header">
       <h1>Membresías</h1>
-      <button mat-icon-button aria-label="añadir" (click)="openAddMbmDialog()">
+      <button *ngIf="currentUser.rol === 'Admin'" mat-icon-button aria-label="añadir" (click)="openAddMbmDialog()">
         <mat-icon>control_point</mat-icon>
       </button>
     </div>
@@ -45,10 +45,10 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let mbm">
-          <button mat-icon-button color="primary" (click)="editMbm(mbm)">
+          <button *ngIf="currentUser.rol === 'Admin'" mat-icon-button color="primary" (click)="editMbm(mbm)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" (click)="deleteMbm(mbm)">
+          <button *ngIf="currentUser.rol === 'Admin'" mat-icon-button color="warn" (click)="deleteMbm(mbm)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>

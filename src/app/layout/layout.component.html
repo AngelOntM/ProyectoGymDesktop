@@ -16,15 +16,15 @@
           <span>Empleados</span>
         </span>
       </a>
-      <a *ngIf="currentUser.rol === 'Admin'" mat-list-item routerLink="home/membresias">
+      <a mat-list-item routerLink="home/membresias">
         <span class="entry colorText">
           <mat-icon>assignment_ind</mat-icon>
           <span>Membresías</span>
         </span>
       </a>
-      <a *ngIf="currentUser.rol === 'Admin'" mat-list-item routerLink="home/productos">
+      <a mat-list-item routerLink="home/productos">
         <span class="entry colorText">
-          <mat-icon>assignment_ind</mat-icon>
+          <mat-icon>shopping_cart</mat-icon>
           <span>Productos</span>
         </span>
       </a>

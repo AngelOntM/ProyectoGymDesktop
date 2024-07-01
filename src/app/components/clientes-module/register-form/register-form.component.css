@@ -1,0 +1,35 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  
+  .form-field {
+    width: 45%;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .cancel-button {
+    order: 1;
+  }
+  
+  .update-button {
+    order: 2;
+  }
+
+  .color {
+    background-color: #363740;
+    color: white;
+  }
+  

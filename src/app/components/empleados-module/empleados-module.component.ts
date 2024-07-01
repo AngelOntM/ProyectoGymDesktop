@@ -70,7 +70,7 @@ export class EmpleadosModuleComponent implements OnInit, AfterViewInit {
 
   editUser(user: Employee) {
     const dialogRef = this.dialog.open(EmployeeUpdateFormComponent, {
-      width: '400px',
+      width: '800px',
       data: user
     });
   
@@ -110,7 +110,7 @@ export class EmpleadosModuleComponent implements OnInit, AfterViewInit {
 
   openAddUserDialog() {
     const dialogRef = this.dialog.open(EmployeeRegisterFormComponent, {
-      width: '400px'
+      width: '800px'
     });
   
     dialogRef.afterClosed().subscribe(result => {

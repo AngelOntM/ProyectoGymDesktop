@@ -70,7 +70,7 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
 
   editUser(user: User) {
     const dialogRef = this.dialog.open(UpdateFormComponent, {
-      width: '400px',
+      width: '800px',
       data: user
     });
   
@@ -110,7 +110,7 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
 
   openAddUserDialog() {
     const dialogRef = this.dialog.open(RegisterFormComponent, {
-      width: '400px'
+      width: '800px'
     });
   
     dialogRef.afterClosed().subscribe(result => {

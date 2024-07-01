@@ -32,7 +32,7 @@
       <button mat-icon-button color="primary" (click)="editUser(user)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="warn" (click)="deleteUser(user)">
+      <button *ngIf="currentUser.rol === 'Admin'" mat-icon-button color="warn" (click)="deleteUser(user)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>

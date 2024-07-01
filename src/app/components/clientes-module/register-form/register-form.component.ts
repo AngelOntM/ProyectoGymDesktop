@@ -13,12 +13,12 @@ export class RegisterFormComponent {
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<RegisterFormComponent>) {
     this.addUserForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone_number: ['', Validators.required],
-      address: ['', Validators.required],
-      date_of_birth: ['', Validators.required],
-    });
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
+      phone_number: ['', [Validators.required, Validators.pattern('^[0-9]{1,10}$')]],
+      address: ['', [Validators.required, Validators.maxLength(60)]],
+      date_of_birth: [''],
+    });    
   }
 
   onSubmit(): void {

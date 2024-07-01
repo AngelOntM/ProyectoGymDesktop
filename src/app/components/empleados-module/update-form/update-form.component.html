@@ -1,35 +1,40 @@
 <h1 mat-dialog-title>Actualizar Empleado</h1>
 <div mat-dialog-content>
-  <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
-      <mat-label>Nombre</mat-label>
-      <input matInput formControlName="name">
-    </mat-form-field>
+  <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Correo</mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+    </div>
 
-    <mat-form-field>
-      <mat-label>Correo</mat-label>
-      <input matInput formControlName="email">
-    </mat-form-field>
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="phone_number">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="address">
+      </mat-form-field>
+    </div>
 
-    <mat-form-field>
-      <mat-label>Teléfono</mat-label>
-      <input matInput formControlName="phone_number">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Dirección</mat-label>
-      <input matInput formControlName="address">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Fecha de Nacimiento</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="date_of_birth">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Fecha de Nacimiento</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date_of_birth">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
   </form>
 </div>
-<div mat-dialog-actions>
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button color="primary" (click)="onSubmit()">Actualizar</button>
+
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-flat-button mat-dialog-close (click)="onClose()" class="cancel-button mat-warn">Cancelar</button>
+  <button mat-flat-button (click)="onSubmit()" class="update-button color">Actualizar</button>
 </div>

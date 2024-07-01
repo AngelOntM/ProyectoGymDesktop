@@ -33,6 +33,7 @@ export class ProductosModuleComponent implements OnInit, AfterViewInit {
   myColumns: string[] = ['product_name', 'description', 'price', 'stock', 'discount', 'active', 'actions'];
   currentUser: any;
   private apiURL = environment.apiURL;
+  private to = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -45,6 +46,12 @@ export class ProductosModuleComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.currentUser = this.userService.getLoggedInUser();
+    if(this.currentUser.rol == "Admin"){
+      this.to = '/productos/all'
+    }
+    else if(this.currentUser.rol == "Empleado"){
+      this.to = '/productos'
+    }
     this.getPdct();
   }
 
@@ -54,7 +61,7 @@ export class ProductosModuleComponent implements OnInit, AfterViewInit {
   }
 
   getPdct() {
-    this.http.get<any>(`${this.apiURL}/productos/all`, {
+    this.http.get<any>(`${this.apiURL}` + this.to, {
       headers: {
         Authorization: `Bearer ${this.currentUser.token}`
       }
