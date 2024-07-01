@@ -7,26 +7,25 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './register-form.component.html',
   styleUrls: ['./register-form.component.css']
 })
-export class MembresiaRegisterFormComponent {
-  addMbmForm: FormGroup;
+export class ProductsRegisterFormComponent {
+  addPdctForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<MembresiaRegisterFormComponent>) {
-    this.addMbmForm = this.fb.group({
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<ProductsRegisterFormComponent>) {
+    this.addPdctForm = this.fb.group({
       product_name: ['', [Validators.required, Validators.maxLength(30)]],
-      price: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d{1,2})?$/)]],
-      description: ['',[Validators.required, Validators.maxLength(200)]],
+      description: ['', [Validators.maxLength(200)]],
+      price: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+      stock: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       discount: ['', [Validators.required, Validators.pattern(/^\d{1,3}$/)]],
-      duration_days: ['', [Validators.required, Validators.pattern(/^-?\d+$/)]],
-      size: ['', [Validators.required, Validators.pattern(/^-?\d+$/)]],
       active: ['', Validators.required],
-      category: [2, Validators.required],
+      category: [1, Validators.required],
       product_image_path: [null],
     });
   }
 
   onSubmit(): void {
-    if (this.addMbmForm.valid) {
-      const formData = { ...this.addMbmForm.value };
+    if (this.addPdctForm.valid) {
+      const formData = { ...this.addPdctForm.value };
       this.dialogRef.close(formData);
     }
   }  
@@ -34,4 +33,5 @@ export class MembresiaRegisterFormComponent {
   onClose(): void {
     this.dialogRef.close();
   }
+
 }

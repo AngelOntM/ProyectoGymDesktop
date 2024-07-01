@@ -38,6 +38,9 @@ import { MembresiasModuleComponent } from './components/membresias-module/membre
 import { MembresiaRegisterFormComponent } from './components/membresias-module/register-form/register-form.component';
 import { MembresiaUpdateFormComponent } from './components/membresias-module/update-form/update-form.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ProductosModuleComponent } from './components/productos-module/productos-module.component';
+import { ProductsRegisterFormComponent } from './components/productos-module/register-form/register-form.component';
+import { ProductsUpdateFormComponent } from './components/productos-module/update-form/update-form.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { MatSelectModule } from '@angular/material/select';
     EmployeeUpdateFormComponent,
     MembresiasModuleComponent,
     MembresiaRegisterFormComponent,
-    MembresiaUpdateFormComponent
+    MembresiaUpdateFormComponent,
+    ProductosModuleComponent,
+    ProductsRegisterFormComponent,
+    ProductsUpdateFormComponent
   ],
   imports: [
     BrowserModule,

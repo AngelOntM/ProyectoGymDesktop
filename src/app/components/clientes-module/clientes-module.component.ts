@@ -142,9 +142,7 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
       error: (err) => {
         Swal.fire('Error', 'No se pudo registrar el cliente', 'error');
       }
-    }).add(() => {
-      Swal.close();
-    });
+    })
   }
 
   updateUser(user: User, id: any) {
@@ -168,9 +166,7 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
       error: (err) => {
         Swal.fire('Error', 'No se pudo actualizar el cliente', 'error');
       }
-    }).add(() => {
-      Swal.close();
-    });
+    })
   }
 
 }

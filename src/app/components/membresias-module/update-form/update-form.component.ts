@@ -9,33 +9,38 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class MembresiaUpdateFormComponent {
   updateMbmForm: FormGroup;
-  membership_type: any;
+  product_name: any;
   price:any;
+  description: any;
+  discount: any;
   duration_days: any;
   size: any;
   active: any;
-  benefits: any;
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<MembresiaUpdateFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.updateMbmForm = this.fb.group({
-      membership_type: ['', [Validators.required, Validators.maxLength(255)]],
+      product_name: ['', [Validators.required, Validators.maxLength(30)]],
       price: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d{1,2})?$/)]],
+      description: ['',[Validators.required, Validators.maxLength(200)]],
+      discount: ['', [Validators.required, Validators.pattern(/^\d{1,3}$/)]],
       duration_days: ['', [Validators.required, Validators.pattern(/^-?\d+$/)]],
       size: ['', [Validators.required, Validators.pattern(/^-?\d+$/)]],
       active: ['', Validators.required],
-      benefits: ['', [Validators.maxLength(200)]],
+      category: [2, Validators.required],
+      product_image_path: [null],
     });
   }
 
   ngOnInit(){
     this.updateMbmForm.patchValue({
-      membership_type: this.data.membership_type,
+      product_name: this.data.product_name,
+      discount: this.data.discount,
       price: this.data.price,
       duration_days: this.data.duration_days,
       size: this.data.size,
       active: this.data.active === 1 ? true : false,
-      benefits: this.data.benefits,
+      description: this.data.description,
     });
   }
 

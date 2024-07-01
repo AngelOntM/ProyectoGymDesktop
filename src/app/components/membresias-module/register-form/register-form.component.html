@@ -1,42 +1,53 @@
-<h1 mat-dialog-title>Registrar Membresía</h1>
+<h1 mat-dialog-title>Registar Membresía</h1>
 <div mat-dialog-content>
-  <form [formGroup]="addMbmForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
-      <mat-label>Tipo</mat-label>
-      <input matInput formControlName="membership_type">
-    </mat-form-field>
+  <form [formGroup]="addMbmForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="product_name">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Descripción</mat-label>
+        <input matInput formControlName="description">
+      </mat-form-field>
+    </div>
 
-    <mat-form-field>
-      <mat-label>Precio</mat-label>
-      <input matInput formControlName="price">
-    </mat-form-field>
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Precio</mat-label>
+        <input matInput formControlName="price">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Descuento</mat-label>
+        <input matInput formControlName="discount">
+      </mat-form-field>
+    </div>
 
-    <mat-form-field>
-      <mat-label>Duración</mat-label>
-      <input matInput formControlName="duration_days">
-    </mat-form-field>
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Tamaño</mat-label>
+        <input matInput formControlName="size">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Días</mat-label>
+        <input matInput formControlName="duration_days">
+      </mat-form-field>
+    </div>
 
-    <mat-form-field>
-      <mat-label>Tamaño</mat-label>
-      <input matInput formControlName="size">
-    </mat-form-field>
-
-    <mat-form-field>
+    <div class="form-row">
+      <mat-form-field class="form-field">
         <mat-label>Activo</mat-label>
         <mat-select formControlName="active">
           <mat-option [value]="true">Activo</mat-option>
           <mat-option [value]="false">Inactivo</mat-option>
         </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Beneficios</mat-label>
-      <input matInput formControlName="benefits">
-    </mat-form-field>
-
+      </mat-form-field>
+    </div>
+    
   </form>
 </div>
-<div mat-dialog-actions>
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button color="primary" (click)="onSubmit()">Registrar</button>
+
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-flat-button mat-dialog-close (click)="onClose()" class="cancel-button mat-warn">Cancelar</button>
+  <button mat-flat-button (click)="onSubmit()" class="update-button color">Registrar</button>
 </div>

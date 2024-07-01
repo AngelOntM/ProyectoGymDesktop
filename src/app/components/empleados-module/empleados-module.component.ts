@@ -142,9 +142,7 @@ export class EmpleadosModuleComponent implements OnInit, AfterViewInit {
       error: (err) => {
         Swal.fire('Error', 'No se pudo registrar el empleado', 'error');
       }
-    }).add(() => {
-      Swal.close();
-    });
+    })
   }
 
   updateUser(user: Employee, id: any) {
@@ -168,9 +166,7 @@ export class EmpleadosModuleComponent implements OnInit, AfterViewInit {
       error: (err) => {
         Swal.fire('Error', 'No se pudo actualizar el empleado', 'error');
       }
-    }).add(() => {
-      Swal.close();
-    });
+    })
   }
 
 

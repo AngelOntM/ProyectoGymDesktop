@@ -1,6 +1,6 @@
-<h1 mat-dialog-title>Actualizar Membresía</h1>
+<h1 mat-dialog-title>Actualizar Producto</h1>
 <div mat-dialog-content>
-  <form [formGroup]="updateMbmForm" (ngSubmit)="onSubmit()" class="form-container">
+  <form [formGroup]="updatePdctForm" (ngSubmit)="onSubmit()" class="form-container">
     <div class="form-row">
       <mat-form-field class="form-field">
         <mat-label>Nombre</mat-label>
@@ -18,23 +18,16 @@
         <input matInput formControlName="price">
       </mat-form-field>
       <mat-form-field class="form-field">
+        <mat-label>Stock</mat-label>
+        <input matInput formControlName="stock">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-field">
         <mat-label>Descuento</mat-label>
         <input matInput formControlName="discount">
       </mat-form-field>
-    </div>
-
-    <div class="form-row">
-      <mat-form-field class="form-field">
-        <mat-label>Tamaño</mat-label>
-        <input matInput formControlName="size">
-      </mat-form-field>
-      <mat-form-field class="form-field">
-        <mat-label>Días</mat-label>
-        <input matInput formControlName="duration_days">
-      </mat-form-field>
-    </div>
-
-    <div class="form-row">
       <mat-form-field class="form-field">
         <mat-label>Activo</mat-label>
         <mat-select formControlName="active">
