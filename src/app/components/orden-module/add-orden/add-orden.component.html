@@ -1,0 +1,88 @@
+<div class="header">
+  <h1>Hacer Orden</h1>
+</div>
+
+<div class="form-container">
+  <mat-form-field class="form-field">
+    <mat-label>Articulo</mat-label>
+    <mat-select #selectArticulo (selectionChange)="cambio(selectArticulo)">
+      <mat-option value="pdct">Producto</mat-option>
+      <mat-option value="mbm">Membresía</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="form-field" *ngIf="status">
+    <input type="text"
+           placeholder="Buscar producto..."
+           aria-label="Buscar producto"
+           matInput
+           [formControl]="myControl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete (optionSelected)="articulo($event)" autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option.product_name">
+        {{ option.product_name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <button *ngIf="status && selectedArticulo === 'pdct'" mat-icon-button color="warn" (click)="comprar()" [disabled]="dataSource.data.length === 0">
+    <mat-icon>shopping_basket</mat-icon>
+  </button>
+  <button *ngIf="status && selectedArticulo === 'mbm'" mat-icon-button color="warn" (click)="comprar()" [disabled]="dataSource.data.length === 0 || pickedUser === -1">
+    <mat-icon>shopping_basket</mat-icon>
+  </button>
+</div>
+<div class="form-container">
+  <mat-form-field class="form-field" *ngIf="status && selectedArticulo === 'mbm'">
+    <input type="text"
+           placeholder="Buscar cliente..."
+           aria-label="Buscar cliente"
+           matInput
+           [formControl]="myClientControl"
+           [matAutocomplete]="auto"
+           (input)="pressed()">
+    <mat-autocomplete (optionSelected)="cliente($event)" autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredClientOptions | async" [value]="option.name">
+        {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+
+<table *ngIf="status" mat-table [dataSource]="dataSource" matTableFilter>
+  <ng-container matColumnDef="product_name">
+    <th mat-header-cell *matHeaderCellDef mat-table-filter-header>Producto</th>
+    <td mat-cell *matCellDef="let pdct">{{ pdct.product_name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="quantity">
+    <th mat-header-cell *matHeaderCellDef mat-table-filter-header>Cantidad</th>
+    <td mat-cell *matCellDef="let pdct">{{ pdct.quantity }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef mat-table-filter-header>Precio unitario</th>
+    <td mat-cell *matCellDef="let pdct">${{ pdct.price }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="total_price">
+    <th mat-header-cell *matHeaderCellDef mat-table-filter-header>Total de Orden</th>
+    <td mat-cell *matCellDef="let pdct">${{ pdct.total_price }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let pdct">
+      <button *ngIf="pdct.category_id === 1"  mat-icon-button color="primary" (click)="editPdct(pdct)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="deletePdct(pdct)">
+        <mat-icon>remove_shopping_cart</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="myColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: myColumns;"></tr>
+</table>
+
+<mat-paginator *ngIf="status" [pageSize]="8" showFirstLastButtons></mat-paginator>

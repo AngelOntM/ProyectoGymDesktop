@@ -1,0 +1,55 @@
+<h1 mat-dialog-title>Pagar Orden: {{data.id}}, total a pagar: ${{data.total_amount}}, Monto: ${{totalPay}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="payForm" (ngSubmit)="onSubmit()" class="form-container">
+
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Método de pago</mat-label>
+        <mat-select (selectionChange)="paymethod($event)" formControlName="payment_method_id">
+          <mat-option value="1">Efectivo</mat-option>
+          <mat-option value="3">Tarjeta de débito</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Cantidad</mat-label>
+        <input matInput formControlName="amount" type="number" inputmode="numeric" (input)="onAmountChange($event)">
+      </mat-form-field>
+      <button mat-icon-button color="warn" (click)="addPayment($event)" [disabled]="pickedAmount === false || pickedPay === -1">
+        <mat-icon>payment</mat-icon>
+      </button>
+    </div>
+    
+  </form>
+  
+  <table mat-table [dataSource]="dataSource" matTableFilter>
+        <ng-container matColumnDef="method_name">
+        <th mat-header-cell *matHeaderCellDef mat-table-filter-header>Método de pago</th>
+        <td mat-cell *matCellDef="let pay">{{ pay.method_name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef mat-table-filter-header>Monto</th>
+        <td mat-cell *matCellDef="let pay">{{ pay.amount }}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let pay">
+            <button mat-icon-button color="warn" (click)="deletePay(pay)">
+            <mat-icon>delete</mat-icon>
+            </button>
+        </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="myColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: myColumns;"></tr>
+  </table>
+  
+  <mat-paginator [pageSize]="8" showFirstLastButtons></mat-paginator>  
+
+</div>
+
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-flat-button mat-dialog-close (click)="onClose()" class="cancel-button mat-warn">Cancelar</button>
+  <button mat-flat-button (click)="onSubmit()" class="update-button color" [disabled]="dataSource.data.length === 0 || totalPay < data.total_amount">Pagar</button>
+</div>

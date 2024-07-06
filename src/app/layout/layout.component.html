@@ -4,28 +4,40 @@
       <h1 mat-list-item class="text">
         <span>{{ currentUser.rol }}</span>
       </h1>
-      <a mat-list-item routerLink="home/clientes">
+      <a mat-list-item routerLink="clientes">
         <span class="entry colorText">
           <mat-icon>group</mat-icon>
           <span>Clientes</span>
         </span>
       </a>
-      <a *ngIf="currentUser.rol === 'Admin'" mat-list-item routerLink="home/empleados">
+      <a *ngIf="currentUser.rol === 'Admin'" mat-list-item routerLink="empleados">
         <span class="entry colorText">
           <mat-icon>work</mat-icon>
           <span>Empleados</span>
         </span>
       </a>
-      <a mat-list-item routerLink="home/membresias">
+      <a mat-list-item routerLink="membresias">
         <span class="entry colorText">
           <mat-icon>assignment_ind</mat-icon>
           <span>Membresías</span>
         </span>
       </a>
-      <a mat-list-item routerLink="home/productos">
+      <a mat-list-item routerLink="productos">
         <span class="entry colorText">
           <mat-icon>shopping_cart</mat-icon>
           <span>Productos</span>
+        </span>
+      </a>
+      <a *ngIf="currentUser.rol === 'Admin'" mat-list-item routerLink="ordenes">
+        <span class="entry colorText">
+          <mat-icon>shopping_cart</mat-icon>
+          <span>Ordenes</span>
+        </span>
+      </a>
+      <a mat-list-item routerLink="ordenAdd">
+        <span class="entry colorText">
+          <mat-icon>shopping_cart</mat-icon>
+          <span>Hacer Orden</span>
         </span>
       </a>
       <!-- Agrega más enlaces de navegación según sea necesario -->

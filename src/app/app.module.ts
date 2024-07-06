@@ -41,6 +41,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { ProductosModuleComponent } from './components/productos-module/productos-module.component';
 import { ProductsRegisterFormComponent } from './components/productos-module/register-form/register-form.component';
 import { ProductsUpdateFormComponent } from './components/productos-module/update-form/update-form.component';
+import { OrdenModuleComponent } from './components/orden-module/orden-module.component';
+import { DetalleComponent } from './components/orden-module/detalle/detalle.component';
+import { AddOrdenComponent } from './components/orden-module/add-orden/add-orden.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { PaymentFormComponent } from './components/orden-module/payment-form/payment-form.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +63,11 @@ import { ProductsUpdateFormComponent } from './components/productos-module/updat
     MembresiaUpdateFormComponent,
     ProductosModuleComponent,
     ProductsRegisterFormComponent,
-    ProductsUpdateFormComponent
+    ProductsUpdateFormComponent,
+    OrdenModuleComponent,
+    DetalleComponent,
+    AddOrdenComponent,
+    PaymentFormComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +90,8 @@ import { ProductsUpdateFormComponent } from './components/productos-module/updat
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]

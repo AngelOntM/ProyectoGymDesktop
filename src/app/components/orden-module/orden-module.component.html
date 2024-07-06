@@ -1,0 +1,48 @@
+<div class="header">
+    <h1>Ordenes</h1>
+  </div>
+  
+  <table mat-table [dataSource]="dataSource" matTableFilter>
+  
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-table-filter-header>ID Orden</th>
+      <td mat-cell *matCellDef="let o"><button (click)="details(o)" class="detailButton">{{ o.id }}</button></td>
+    </ng-container>
+  
+    <ng-container matColumnDef="user_id">
+      <th mat-header-cell *matHeaderCellDef mat-table-filter-header>Usuario</th>
+      <td mat-cell *matCellDef="let o">{{ o.user_id ? o.user_id : 'N/A' }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="order_date">
+      <th mat-header-cell *matHeaderCellDef mat-table-filter-header>Fecha de Orden</th>
+      <td mat-cell *matCellDef="let o">{{ o.order_date }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="total_amount">
+    <th mat-header-cell *matHeaderCellDef mat-table-filter-header>Total de Orden</th>
+    <td mat-cell *matCellDef="let o">{{ o.total_amount }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef mat-table-filter-header>Estado</th>
+      <td mat-cell *matCellDef="let o">{{ o.estado }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let o">
+        <button mat-icon-button color="accent" (click)="editOrd(o)">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <button *ngIf="o.estado === 'Proceso'" mat-icon-button color="primary" (click)="payOrder(o)">
+          <mat-icon>payment</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="myColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: myColumns;"></tr>
+  </table>
+  
+  <mat-paginator [pageSize]="8" showFirstLastButtons></mat-paginator>  
