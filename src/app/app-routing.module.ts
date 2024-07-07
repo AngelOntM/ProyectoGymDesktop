@@ -9,6 +9,7 @@ import { ProductosModuleComponent } from './components/productos-module/producto
 import { OrdenModuleComponent } from './components/orden-module/orden-module.component';
 import { DetalleComponent } from './components/orden-module/detalle/detalle.component';
 import { AddOrdenComponent } from './components/orden-module/add-orden/add-orden.component';
+import { VisitasModuleComponent } from './components/visitas-module/visitas-module.component';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
     { path: 'ordenes', component: OrdenModuleComponent},
     { path: 'ordenesDetalle/:id', component: DetalleComponent },
     { path: 'ordenAdd', component: AddOrdenComponent },
+    { path: 'visitas', component: VisitasModuleComponent },
   ]},
   { path: '**', redirectTo: '' }
 ];

@@ -294,11 +294,22 @@ export class AddOrdenComponent {
   }
 
   comprar(){
-    if(this.dataSource.data[0].category_id === 2){
-      this.makeOrderMbm(this.dataSource.data[0], this.pickedUser)
-    }else if(this.dataSource.data[0].category_id === 1){
-      this.makeOrderPdct(this.dataSource.data)
-    }
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: "Estás apunto de realizar tu orden",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if(this.dataSource.data[0].category_id === 2){
+          this.makeOrderMbm(this.dataSource.data[0], this.pickedUser)
+        }else if(this.dataSource.data[0].category_id === 1){
+          this.makeOrderPdct(this.dataSource.data)
+        }
+      }
+    });
   }
 
   makeOrderPdct(data: any){

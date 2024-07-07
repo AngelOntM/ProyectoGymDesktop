@@ -46,6 +46,7 @@ import { DetalleComponent } from './components/orden-module/detalle/detalle.comp
 import { AddOrdenComponent } from './components/orden-module/add-orden/add-orden.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { PaymentFormComponent } from './components/orden-module/payment-form/payment-form.component';
+import { VisitasModuleComponent } from './components/visitas-module/visitas-module.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { PaymentFormComponent } from './components/orden-module/payment-form/pay
     OrdenModuleComponent,
     DetalleComponent,
     AddOrdenComponent,
-    PaymentFormComponent
+    PaymentFormComponent,
+    VisitasModuleComponent
   ],
   imports: [
     BrowserModule,
