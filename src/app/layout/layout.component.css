@@ -73,3 +73,10 @@ h1 {
   overflow: hidden; /* Oculta cualquier contenido que sobresalga */
   text-overflow: ellipsis; /* Muestra puntos suspensivos (...) cuando el texto se corta */
 }
+
+.bottom-button-container {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}

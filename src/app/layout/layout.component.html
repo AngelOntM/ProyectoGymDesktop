@@ -24,13 +24,13 @@
       </a>
       <a mat-list-item routerLink="productos">
         <span class="entry colorText">
-          <mat-icon>shopping_cart</mat-icon>
+          <mat-icon>store_mall_directory</mat-icon>
           <span>Productos</span>
         </span>
       </a>
       <a *ngIf="currentUser.rol === 'Admin'" mat-list-item routerLink="ordenes">
         <span class="entry colorText">
-          <mat-icon>shopping_cart</mat-icon>
+          <mat-icon>move_to_inbox</mat-icon>
           <span>Ordenes</span>
         </span>
       </a>
@@ -47,6 +47,14 @@
         </span>
       </a>
       <!-- Agrega más enlaces de navegación según sea necesario -->
+
+      <!-- Botón de canjeo -->
+      <div class="bottom-button-container">
+        <button mat-icon-button aria-label="Face icon" (click)="canjear()">
+          <mat-icon>face</mat-icon>
+        </button>
+      </div>
+      <!--  -->
     </mat-nav-list>
   </mat-sidenav>
 
