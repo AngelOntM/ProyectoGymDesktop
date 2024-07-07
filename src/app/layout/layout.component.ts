@@ -93,8 +93,18 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     Swal.fire({
       title: 'Canjear Código',
       html:
-        '<input id="swal-input1" class="swal2-input" type="number" placeholder="ID Usuario">' +
-        '<input id="swal-input2" class="swal2-input" maxlength="10" placeholder="Código">',
+      '<style>' +
+        'input[type=number]::-webkit-outer-spin-button, ' +
+        'input[type=number]::-webkit-inner-spin-button { ' +
+          '-webkit-appearance: none; ' +
+          'margin: 0; ' +
+        '}' +
+        'input[type=number] { ' +
+          '-moz-appearance: textfield; ' +
+        '}' +
+      '</style>' +
+      '<input id="swal-input1" class="swal2-input" type="number" placeholder="ID Usuario">' +
+      '<input id="swal-input2" class="swal2-input" maxlength="10" placeholder="Código">',
       focusConfirm: false,
       preConfirm: () => {
         const userId = (document.getElementById('swal-input1') as HTMLInputElement).value;
@@ -113,6 +123,14 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   makeRedeem(id: number, code: string) {
     const payload = { user_id:id, code:code }
+    Swal.fire({
+      title: 'Cargando...',
+      text: 'Por favor espere',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     this.http.post<any>(`${this.apiURL}/membership/redeem/user`, payload, {
       headers: {
         Authorization: `Bearer ${this.currentUser.token}`
@@ -122,7 +140,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         Swal.fire('Éxito', 'El código ha sido canjeado correctamente.', 'success');
       },
       error: (err) => {
-        Swal.fire('Error', 'Hubo un problema al canjear el código.', 'error');
+        Swal.fire('Error', 'El código es incorrecto, ya fue usado o el usuario ya cuenta con membresía.', 'error');
       }
     });
   }
