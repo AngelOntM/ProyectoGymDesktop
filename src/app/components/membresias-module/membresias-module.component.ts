@@ -30,7 +30,7 @@ interface Membership {
 })
 export class MembresiasModuleComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<Membership>;
-  myColumns: string[] = ['product_name', 'description', 'price','discount', 'duration_days', 'size', 'active', 'actions'];
+  myColumns: string[] = ['product_name', 'description', 'price','discount', 'duration_days', 'size', 'active'];
   currentUser: any;
   private apiURL = environment.apiURL;
   private to = ''
@@ -48,6 +48,7 @@ export class MembresiasModuleComponent implements OnInit, AfterViewInit {
     this.currentUser = this.userService.getLoggedInUser();
     if(this.currentUser.rol == "Admin"){
       this.to = '/membresias/all'
+      this.myColumns.push('actions');
     }
     else if(this.currentUser.rol == "Empleado"){
       this.to = '/membresias'

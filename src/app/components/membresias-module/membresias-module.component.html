@@ -42,7 +42,7 @@
         <td mat-cell *matCellDef="let mbm">{{ mbm.active == 1 ? 'Activo' : 'Inactivo' }}</td>
       </ng-container>
     
-      <ng-container matColumnDef="actions">
+      <ng-container matColumnDef="actions" *ngIf="currentUser.rol === 'Admin'">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let mbm">
           <button *ngIf="currentUser.rol === 'Admin'" mat-icon-button color="primary" (click)="editMbm(mbm)">

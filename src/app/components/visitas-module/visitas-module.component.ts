@@ -44,6 +44,14 @@ export class VisitasModuleComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.applySorting();
+  }
+
+  applySorting() {
+    if (this.dataSource && this.dataSource.sort) {
+      this.dataSource.sort.sort({ id: 'visit_date', start: 'desc', disableClear: true });
+      this.dataSource.sort.sort({ id: 'check_in_time', start: 'desc', disableClear: true });
+    }
   }
 
   getVisits() {

@@ -30,7 +30,7 @@ interface Product {
 })
 export class ProductosModuleComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<Product>;
-  myColumns: string[] = ['product_name', 'description', 'price', 'stock', 'discount', 'active', 'actions'];
+  myColumns: string[] = ['product_name', 'description', 'price', 'stock', 'discount', 'active'];
   currentUser: any;
   private apiURL = environment.apiURL;
   private to = '';
@@ -48,6 +48,7 @@ export class ProductosModuleComponent implements OnInit, AfterViewInit {
     this.currentUser = this.userService.getLoggedInUser();
     if(this.currentUser.rol == "Admin"){
       this.to = '/productos/all'
+      this.myColumns.push('actions');
     }
     else if(this.currentUser.rol == "Empleado"){
       this.to = '/productos'

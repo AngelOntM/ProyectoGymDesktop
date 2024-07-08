@@ -48,6 +48,13 @@ export class OrdenModuleComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.applySorting()
+  }
+
+  applySorting() {
+    if (this.dataSource && this.dataSource.sort) {
+      this.dataSource.sort.sort({ id: 'id', start: 'desc', disableClear: true });
+    }
   }
 
   getOrd() {
