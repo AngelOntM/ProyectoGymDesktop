@@ -10,18 +10,20 @@ import { OrdenModuleComponent } from './components/orden-module/orden-module.com
 import { DetalleComponent } from './components/orden-module/detalle/detalle.component';
 import { AddOrdenComponent } from './components/orden-module/add-orden/add-orden.component';
 import { VisitasModuleComponent } from './components/visitas-module/visitas-module.component';
+import { AuthGuard } from './auth.guard';
+import { RoleGuard } from './role.guard';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
-  { path: 'home', component: LayoutComponent, children: [
-    { path: 'clientes', component: ClientesModuleComponent },
-    { path: 'empleados', component: EmpleadosModuleComponent },
-    { path: 'membresias', component: MembresiasModuleComponent },
-    { path: 'productos', component: ProductosModuleComponent },
-    { path: 'ordenes', component: OrdenModuleComponent},
-    { path: 'ordenesDetalle/:id', component: DetalleComponent },
-    { path: 'ordenAdd', component: AddOrdenComponent },
-    { path: 'visitas', component: VisitasModuleComponent },
+  { path: 'home', component: LayoutComponent, canActivate: [AuthGuard] , children: [
+    { path: 'clientes', component: ClientesModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
+    { path: 'empleados', component: EmpleadosModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin"] } },
+    { path: 'membresias', component: MembresiasModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
+    { path: 'productos', component: ProductosModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
+    { path: 'ordenes', component: OrdenModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin"] }},
+    { path: 'ordenesDetalle/:id', component: DetalleComponent, canActivate: [RoleGuard], data: { roles: ["Admin"] } },
+    { path: 'ordenAdd', component: AddOrdenComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
+    { path: 'visitas', component: VisitasModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
   ]},
   { path: '**', redirectTo: '' }
 ];
