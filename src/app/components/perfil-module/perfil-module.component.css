@@ -1,0 +1,28 @@
+.profile-card {
+  max-width: 80vw;
+  margin: auto;
+  padding: 5vw;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (max-width: 60vw) {
+  .profile-card {
+    padding: 2.5vw;
+  }
+}
+
+.profile-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Espacio entre la imagen y el contenido */
+}
+
+.profile-image img {
+  border-radius: 50%;
+  width: 20vw; /* 20% de la anchura de la ventana */
+  height: 20vw; /* 20% de la anchura de la ventana */
+  max-width: 150px; /* Limitar tamaño máximo a 150px */
+  max-height: 150px; /* Limitar tamaño máximo a 150px */
+}

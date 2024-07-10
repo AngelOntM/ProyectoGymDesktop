@@ -63,7 +63,7 @@
       <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
         <mat-icon>menu</mat-icon>
       </button>
-      <h1 class="truncated">Bienvenido, {{ currentUser.name }}</h1>
+      <h1 class="truncated">Bienvenido, <a class="perfilClick" routerLink="perfil">{{ currentUser.name }}</a></h1>
       <span class="spacer"></span>
       <button mat-icon-button aria-label="Logout" (click)="logOut()">
         <mat-icon>exit_to_app</mat-icon>

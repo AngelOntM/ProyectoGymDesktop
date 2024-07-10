@@ -47,6 +47,8 @@ import { AddOrdenComponent } from './components/orden-module/add-orden/add-orden
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { PaymentFormComponent } from './components/orden-module/payment-form/payment-form.component';
 import { VisitasModuleComponent } from './components/visitas-module/visitas-module.component';
+import { PerfilModuleComponent } from './components/perfil-module/perfil-module.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,8 @@ import { VisitasModuleComponent } from './components/visitas-module/visitas-modu
     DetalleComponent,
     AddOrdenComponent,
     PaymentFormComponent,
-    VisitasModuleComponent
+    VisitasModuleComponent,
+    PerfilModuleComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +96,8 @@ import { VisitasModuleComponent } from './components/visitas-module/visitas-modu
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

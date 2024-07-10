@@ -80,3 +80,11 @@ h1 {
   left: 50%;
   transform: translateX(-50%);
 }
+
+.perfilClick {
+  background-color: transparent;
+  color:white;
+  border-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+}

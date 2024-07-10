@@ -12,6 +12,7 @@ import { AddOrdenComponent } from './components/orden-module/add-orden/add-orden
 import { VisitasModuleComponent } from './components/visitas-module/visitas-module.component';
 import { AuthGuard } from './auth.guard';
 import { RoleGuard } from './role.guard';
+import { PerfilModuleComponent } from './components/perfil-module/perfil-module.component';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
     { path: 'ordenesDetalle/:id', component: DetalleComponent, canActivate: [RoleGuard], data: { roles: ["Admin"] } },
     { path: 'ordenAdd', component: AddOrdenComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
     { path: 'visitas', component: VisitasModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
+    { path: 'perfil', component: PerfilModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
   ]},
   { path: '**', redirectTo: '' }
 ];
