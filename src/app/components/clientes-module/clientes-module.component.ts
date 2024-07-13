@@ -154,7 +154,7 @@ export class ClientesModuleComponent implements OnInit, AfterViewInit {
         Swal.showLoading();
       }
     });
-    this.http.put<any>(`${this.apiURL}/users/`+ id, user,{
+    this.http.post<any>(`${this.apiURL}/users/`+ id, user,{
       headers: {
         Authorization: `Bearer ${this.currentUser.token}`
       }

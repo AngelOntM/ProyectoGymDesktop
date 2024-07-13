@@ -145,4 +145,58 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     });
   }
 
+  visit() {
+    Swal.fire({
+      title: 'Realizar Visita',
+      html:
+      '<style>' +
+        'input[type=number]::-webkit-outer-spin-button, ' +
+        'input[type=number]::-webkit-inner-spin-button { ' +
+          '-webkit-appearance: none; ' +
+          'margin: 0; ' +
+        '}' +
+        'input[type=number] { ' +
+          '-moz-appearance: textfield; ' +
+        '}' +
+      '</style>' +
+      '<input id="swal-input1" class="swal2-input" type="number" maxlenght="6" placeholder="ID Usuario">',
+      focusConfirm: false,
+      preConfirm: () => {
+        const userId = (document.getElementById('swal-input1') as HTMLInputElement).value;
+        if (!userId) {
+          Swal.showValidationMessage('Por favor, ingresa un ID de usuario');
+        }
+        return { userId: Number(userId)};
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.makeVisit(result.value.userId);
+      }
+    });
+  }
+
+  makeVisit(id: number) {
+    const payload = { user_id:id }
+    Swal.fire({
+      title: 'Cargando...',
+      text: 'Por favor espere',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+    this.http.post<any>(`${this.apiURL}/visits`, payload, {
+      headers: {
+        Authorization: `Bearer ${this.currentUser.token}`
+      }
+    }).subscribe({
+      next: (response) => {
+        Swal.fire('Éxito', 'Todo en orden, puede pasar.', 'success');
+      },
+      error: (err) => {
+        Swal.fire('Error', 'No puede pasar', 'error');
+      }
+    });
+  }
+
 }
