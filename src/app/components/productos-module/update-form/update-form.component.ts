@@ -15,6 +15,7 @@ export class ProductsUpdateFormComponent {
   stock: any;
   discount: any;
   active: any;
+  imageFile: File | null = null;
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<ProductsUpdateFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -43,8 +44,26 @@ export class ProductsUpdateFormComponent {
 
   onSubmit(): void {
     if (this.updatePdctForm.valid) {
-      const formData = { ...this.updatePdctForm.value };
+      const formData = new FormData()
+      formData.append('product_name', this.updatePdctForm.get('product_name')!.value);
+      formData.append('description', this.updatePdctForm.get('description')!.value || '');
+      formData.append('price', this.updatePdctForm.get('price')!.value);
+      formData.append('stock', this.updatePdctForm.get('stock')!.value);
+      formData.append('discount', this.updatePdctForm.get('discount')!.value);
+      formData.append('active', this.updatePdctForm.get('active')!.value ? "1" : "0");
+      formData.append('category', this.updatePdctForm.get('category')!.value);
+      if(this.imageFile){
+        formData.append('product_image_path', this.imageFile);
+      }
       this.dialogRef.close(formData);
+    }
+  }
+
+  onFileSelected(event: any): void {
+    this.imageFile = null
+    const file: File = event.target.files[0];
+    if (file) {
+      this.imageFile = file;
     }
   }
 

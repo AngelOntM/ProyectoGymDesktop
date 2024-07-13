@@ -16,6 +16,7 @@ export class MembresiaUpdateFormComponent {
   duration_days: any;
   size: any;
   active: any;
+  imageFile: File | null = null;
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<MembresiaUpdateFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -46,8 +47,27 @@ export class MembresiaUpdateFormComponent {
 
   onSubmit(): void {
     if (this.updateMbmForm.valid) {
-      const formData = { ...this.updateMbmForm.value };
+      const formData = new FormData()
+      formData.append('product_name', this.updateMbmForm.get('product_name')!.value);
+      formData.append('description', this.updateMbmForm.get('description')!.value || '');
+      formData.append('price', this.updateMbmForm.get('price')!.value);
+      formData.append('size', this.updateMbmForm.get('size')!.value);
+      formData.append('discount', this.updateMbmForm.get('discount')!.value);
+      formData.append('duration_days', this.updateMbmForm.get('duration_days')!.value);
+      formData.append('active', this.updateMbmForm.get('active')!.value ? "1" : "0");
+      formData.append('category', this.updateMbmForm.get('category')!.value);
+      if(this.imageFile){
+        formData.append('product_image_path', this.imageFile);
+      }
       this.dialogRef.close(formData);
+    }
+  }
+
+  onFileSelected(event: any): void {
+    this.imageFile = null
+    const file: File = event.target.files[0];
+    if (file) {
+      this.imageFile = file;
     }
   }
 
