@@ -31,10 +31,18 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </div>
+    <div class="webcam-container">
+      <video #videoElement class="webcam-video"></video>
+      <img [src]="capturedPhoto ? capturedPhotoUrl : defaultImg" alt="Captured Photo" class="captured-photo">
+    </div>
+    <div class="button-container">
+      <button mat-flat-button type="button" (click)="capturePhoto()" class="capture-button color">Tomar Foto</button>
+      <button *ngIf="capturedPhoto" mat-flat-button type="button" (click)="deletePhoto()" class="capture-button mat-warn">Eliminar Foto</button>
+    </div>
   </form>
 </div>
 
 <div mat-dialog-actions class="dialog-actions">
-  <button mat-flat-button mat-dialog-close (click)="onClose()" class="cancel-button mat-warn">Cancelar</button>
-  <button mat-flat-button (click)="onSubmit()" class="update-button color">Registrar</button>
+  <button mat-flat-button mat-dialog-close (click)="onClose()" [disabled]="!isCameraReady" class="cancel-button mat-warn">Cancelar</button>
+  <button mat-flat-button (click)="onSubmit()" [disabled]="!isCameraReady" class="update-button color">Registrar</button>
 </div>

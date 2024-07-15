@@ -32,4 +32,36 @@
     background-color: #363740;
     color: white;
   }
+
+  .color:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #a0a0a0;
+    color: #666666;
+  }
+
+  .webcam-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   
+  .webcam-video, .captured-photo {
+    width: 45%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Ajusta el ancho según tus necesidades */
+    margin-top: 10px;
+  }
+  
+  .capture-button {
+    flex: 0 0 45%; /* Fuerza a los botones a ocupar exactamente el 40% del ancho disponible */
+    max-width: 45%; /* Limita el ancho máximo al 40% del contenedor */
+    margin: 0 5px; /* Ajusta el margen entre los botones */
+  }
