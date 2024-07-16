@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/user.service';
 import { environment } from 'src/enviroment/enviroment';
@@ -30,6 +30,8 @@ export class PerfilModuleComponent implements OnInit {
   user!: User;
   currentUser: any;
   apiURL = environment.apiURL;
+  imageUrl: string | null = null;
+  defaultImg = "assets/img/noImage.jpg"
 
   constructor(private http: HttpClient, private userService: UserService, private dialog: MatDialog) {}
 
@@ -54,7 +56,7 @@ export class PerfilModuleComponent implements OnInit {
     }).subscribe({
       next: (response) => {
         this.user = response.user;
-        Swal.close()
+        this.getUserImage(this.user.id)
       },
       error: (err) => {
         Swal.fire('Error', 'No se pudo cargar el perfil', 'error');
@@ -161,6 +163,27 @@ export class PerfilModuleComponent implements OnInit {
         Swal.fire('Error', 'No se pudo actualizar el empleado', 'error');
       }
     })
+  }
+
+  getUserImage(id: number) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.currentUser.token}`,
+      'Accept': 'image/jpg'
+    });
+    this.http.get<any>(`${this.apiURL}/users/image/${id}`, { headers, responseType: 'blob' as 'json' }).subscribe({
+      next: (response: Blob) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.imageUrl = reader.result as string;
+          Swal.close();
+        };
+        reader.readAsDataURL(response);
+      },
+      error: (err) => {
+        Swal.close()
+        Swal.fire('Error', 'No se pudo cargar la imagen del perfil', 'error');
+      }
+    });
   }
 
 }

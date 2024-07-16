@@ -1,7 +1,7 @@
 <mat-card class="profile-card" *ngIf="user">
     <div class="profile-image" *ngIf="user.face_image_path">
       <!-- <img [src]="user.face_image_path" alt="{{user.name}}"> -->
-      <img src="assets/img/noImage.jpg" alt="{{user.name}}">
+      <img [src]="imageUrl ? imageUrl : defaultImg" alt="{{user.name}}">
     </div>
     <mat-card-header>
       <mat-card-title>{{ user.name }}</mat-card-title>
