@@ -117,10 +117,10 @@ export class FaceDetectionService {
         }
       }).subscribe({
         next: (response) => {
-          console.log("visita");
+          //console.log("visita");
         },
         error: (err) => {
-          console.log("error en visita");
+          //console.log("error en visita");
         }
       });
     }
