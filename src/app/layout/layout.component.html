@@ -56,6 +56,12 @@
         <button mat-icon-button aria-label="Face icon" (click)="visit()">
           <mat-icon>directions_walk</mat-icon>
         </button>
+        <button mat-icon-button
+        aria-label="Face icon"
+        (click)="toggleDetection()"
+        [ngClass]="{'on': isServiceOn, 'off': !isServiceOn}">
+          <mat-icon>camera_alt</mat-icon>
+        </button>
       </div>
       <!--  -->
     </mat-nav-list>

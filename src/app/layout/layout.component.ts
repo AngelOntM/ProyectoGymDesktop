@@ -6,6 +6,7 @@ import { UserService } from '../user.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/enviroment/enviroment';
 import Swal from 'sweetalert2';
+import { FaceDetectionService } from '../face-detection.service';
 
 @Component({
   selector: 'app-layout',
@@ -16,10 +17,12 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isScreenSmall: boolean = false;
   currentUser: any;
+  isServiceOn: boolean = false;
   private apiURL = environment.apiURL;
 
   constructor(private breakpointObserver: BreakpointObserver, private router: Router,
-    private userService: UserService, private http: HttpClient, private session: UserService
+    private userService: UserService, private http: HttpClient, private session: UserService,
+    private faceDetectionService: FaceDetectionService
   ) {}
 
   ngOnInit() {
@@ -38,6 +41,15 @@ export class LayoutComponent implements OnInit, AfterViewInit {
           this.sidenav.open();
         }
       });
+  }
+
+  toggleDetection() {
+    if (this.isServiceOn) {
+      this.faceDetectionService.stopDetection();
+    } else {
+      this.faceDetectionService.initialize();
+    }
+    this.isServiceOn = !this.isServiceOn;
   }
 
   toggleMenu() {

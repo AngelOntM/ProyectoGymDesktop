@@ -88,3 +88,10 @@ h1 {
   cursor: pointer;
   text-decoration: none;
 }
+
+button.on {
+  color: green;
+}
+button.off {
+  color: white;
+}
