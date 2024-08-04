@@ -97,7 +97,7 @@ export class LoginComponent {
                   timer: 2500,
                   showConfirmButton: false
                 }).then(() => {
-                  this.router.navigateByUrl('/home');
+                  this.router.navigateByUrl('/home/perfil');
                 });
               },
               error: (err) => {
@@ -125,7 +125,7 @@ export class LoginComponent {
             timer: 2500,
             showConfirmButton: false
           }).then(() => {
-            this.router.navigateByUrl('/home');
+            this.router.navigateByUrl('/home/perfil');
           });
         }
       },

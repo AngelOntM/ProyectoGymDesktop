@@ -4,6 +4,7 @@ import * as faceapi from 'face-api.js';
 import { environment } from 'src/enviroment/enviroment';
 import Swal from 'sweetalert2';
 import { UserService } from './user.service';
+import { ArduinoService } from './arduino.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,9 @@ export class FaceDetectionService {
   private currentUser: any;
   private isExecuting: boolean = false;
 
-  constructor(private http: HttpClient, private userService: UserService) {
+  constructor(private http: HttpClient, private userService: UserService,
+    private arduinoService: ArduinoService
+  ) {
     this.currentUser = userService.getLoggedInUser();
   }
 
@@ -118,6 +121,10 @@ export class FaceDetectionService {
       }).subscribe({
         next: (response) => {
           //console.log("visita");
+          this.arduinoService.turnOnLed();
+          setTimeout(() => {
+            this.arduinoService.turnOffLed();
+          }, 5000);
         },
         error: (err) => {
           //console.log("error en visita");
