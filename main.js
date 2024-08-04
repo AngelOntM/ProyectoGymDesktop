@@ -7,20 +7,22 @@ let port;
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    fullscreen: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       enableRemoteModule: false,
+      nodeIntegration: false,
+      webSecurity: false
     }
   });
 
   win.loadURL(url.format({
-    pathname: path.join(__dirname, 'dist/Gymbros-Desktop-App/index.html'),
+    pathname: path.join(__dirname, 'dist/gymbros-desktop-app/index.html'),
     protocol: 'file:',
     slashes: true
   }));
+  win.setMenuBarVisibility(false);
 }
 
 app.whenReady().then(createWindow);
@@ -70,30 +72,3 @@ ipcMain.on('serial-close', () => {
     });
   }
 });
-
-// const { app, BrowserWindow } = require('electron');
-// const url = require('url');
-// const path = require('path');
-
-// function onReady() {
-//     // Crear la ventana en pantalla completa
-//     win = new BrowserWindow({
-//         fullscreen: true,
-//         webPreferences: {
-//             nodeIntegration: true,
-//             contextIsolation: false
-//         }
-//     });
-
-//     // Cargar la URL de la aplicación Angular
-//     win.loadURL(url.format({
-//         pathname: path.join(__dirname, 'dist/Gymbros-Desktop-App/index.html'),
-//         protocol: 'file:',
-//         slashes: true
-//     }));
-
-//     // Eventualmente, eliminar la barra de menú (opcional)
-//     win.setMenuBarVisibility(false);
-// }
-
-// app.on('ready', onReady);

@@ -1,7 +1,21 @@
 {
   "name": "gymbros-desktop-app",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "main.js",
+  "description": "una app para los gymbros",
+  "author": "GymBrosInc",
+  "build": {
+    "appId": "com.gymbros.app",
+    "files": [
+      "dist/gymbros-desktop-app/**/*",
+      "main.js",
+      "preload.js"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "asar": true
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +23,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "ng build && electron ."
+    "electron": "ng build && electron .",
+    "electron:build": "electron-builder"
   },
   "private": true,
   "dependencies": {
@@ -24,7 +39,6 @@
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
     "@tensorflow/tfjs-core": "^4.20.0",
-    "electron": "^31.0.0",
     "face-api.js": "^0.22.2",
     "ng-mat-table-filter": "^16.0.2",
     "rxjs": "~7.8.0",
@@ -38,6 +52,8 @@
     "@angular/cli": "^16.2.7",
     "@angular/compiler-cli": "^16.2.0",
     "@types/jasmine": "~4.3.0",
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
