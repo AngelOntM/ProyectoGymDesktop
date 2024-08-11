@@ -12,6 +12,10 @@ export class ArduinoService {
     window.serial.openPort(this.portPath);
   }
 
+  sendCommand(command: string){
+    window.serial.sendCommand(command);
+  }
+
   turnOnLed() {
     window.serial.sendCommand('1');
   }

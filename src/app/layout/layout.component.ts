@@ -82,6 +82,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
               showConfirmButton: false,
               timer: 1500 // Tiempo en milisegundos (1.5 segundos)
             }).then(() => {
+              if (this.isServiceOn) {
+                this.faceDetectionService.stopDetection();
+              }
               this.userService.logout();
               this.router.navigateByUrl('');
             });
@@ -92,6 +95,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
               title: 'Error al cerrar sesión',
               text: 'Hubo un problema al intentar cerrar sesión. Por favor, inténtalo de nuevo.',
             }).then(() => {
+              if (this.isServiceOn) {
+                this.faceDetectionService.stopDetection();
+              }
               this.userService.logout();
               this.router.navigateByUrl('');
             });

@@ -21,10 +21,11 @@ export class FaceDetectionService {
   constructor(private http: HttpClient, private userService: UserService,
     private arduinoService: ArduinoService
   ) {
-    this.currentUser = userService.getLoggedInUser();
+    //this.currentUser = userService.getLoggedInUser();
   }
 
   async initialize() {
+    this.currentUser = this.userService.getLoggedInUser();
     await Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri('assets/models'),
       faceapi.nets.faceLandmark68Net.loadFromUri('assets/models'),
@@ -69,6 +70,7 @@ export class FaceDetectionService {
               if (detections) {
                 faceapi.draw.drawDetections(canvasElement, faceapi.resizeResults(detections, displaySize));
                 this.continuousFaceTime += 0.1;
+                this.arduinoService.sendCommand("3");
                 if (this.continuousFaceTime >= this.detectionThreshold) {
                   this.continuousFaceTime = 0;
                   this.isExecuting = true;
@@ -79,6 +81,7 @@ export class FaceDetectionService {
                   this.startVideo();
                 }
               } else {
+                this.arduinoService.sendCommand("4");
                 this.continuousFaceTime = 0;
               }
             }
@@ -120,14 +123,21 @@ export class FaceDetectionService {
         }
       }).subscribe({
         next: (response) => {
-          //console.log("visita");
-          this.arduinoService.turnOnLed();
+          this.showFloatingCard("Visita exitosa, puede pasar", "green");
+          this.arduinoService.sendCommand("4");
+          this.arduinoService.sendCommand("57");
           setTimeout(() => {
-            this.arduinoService.turnOffLed();
+            this.arduinoService.sendCommand("68");
           }, 5000);
         },
         error: (err) => {
-          //console.log("error en visita");
+          const errorMessage = err?.error?.message || 'Error al registrar la visita';
+          this.showFloatingCard(`Error: ${errorMessage}`, 'red');
+          this.arduinoService.sendCommand("4");
+          this.arduinoService.sendCommand("1")
+          setTimeout(() => {
+            this.arduinoService.sendCommand("2");
+          }, 5000);
         }
       });
     }
@@ -142,4 +152,29 @@ export class FaceDetectionService {
     clearInterval(this.faceDetectionInterval);
     document.body.removeChild(this.videoInput);
   }
+
+  showFloatingCard(message: string, borderColor: string) {
+    const card = document.createElement('div');
+    card.textContent = message;
+    card.style.position = 'fixed';
+    card.style.bottom = '20px';
+    card.style.right = '20px';
+    card.style.backgroundColor = '#fff';
+    card.style.border = `2px solid ${borderColor}`;
+    card.style.borderRadius = '8px';
+    card.style.padding = '10px';
+    card.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+    card.style.zIndex = '1000';
+    card.style.transition = 'opacity 0.5s';
+
+    document.body.appendChild(card);
+
+    setTimeout(() => {
+      card.style.opacity = '0';
+      setTimeout(() => {
+        document.body.removeChild(card);
+      }, 500); // Espera 0.5 segundos más para que desaparezca
+    }, 5000); // Desaparece después de 5 segundos
+  }
+
 }
