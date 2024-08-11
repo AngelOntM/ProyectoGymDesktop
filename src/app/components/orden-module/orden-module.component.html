@@ -2,6 +2,40 @@
     <h1>Ordenes</h1>
   </div>
   
+  <form [formGroup]="dateForm" (ngSubmit)="getOrd()" class="date-form">
+    <mat-form-field class="date-input">
+      <mat-label>First Date</mat-label>
+      <input matInput [matDatepicker]="firstDatepicker" formControlName="firstDate">
+      <mat-datepicker-toggle matSuffix [for]="firstDatepicker"></mat-datepicker-toggle>
+      <mat-datepicker #firstDatepicker></mat-datepicker>
+      <mat-error *ngIf="dateForm.get('firstDate')?.hasError('required')">
+        Fecha inicial es requerida
+      </mat-error>
+      <mat-error *ngIf="dateForm.get('firstDate')?.hasError('dateRange')">
+        Fecha final debe ser mayor o igual a la fecha inicial
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field class="date-input">
+      <mat-label>End Date</mat-label>
+      <input matInput [matDatepicker]="endDatepicker" formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatepicker></mat-datepicker>
+      <mat-error *ngIf="dateForm.get('endDate')?.hasError('required')">
+        Fecha final es requerida
+      </mat-error>
+      <mat-error *ngIf="dateForm.get('endDate')?.hasError('dateRange')">
+        Fecha final debe ser mayor o igual a la fecha inicial
+      </mat-error>
+    </mat-form-field>
+  
+    <button mat-icon-button type="submit" [disabled]="dateForm.invalid">
+      <mat-icon>search</mat-icon>
+    </button>
+  </form>  
+
+  <br>
+  
   <table mat-table [dataSource]="dataSource" matTableFilter>
   
     <ng-container matColumnDef="id">

@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/user.service';
 import { environment } from 'src/enviroment/enviroment';
 import Swal from 'sweetalert2';
@@ -26,42 +27,65 @@ export class VisitasModuleComponent implements OnInit, AfterViewInit {
   myColumns: string[] = ['user_id', 'user', 'visit_date', 'check_in_time'];
   currentUser: any;
   private apiURL = environment.apiURL;
+  dateForm!: FormGroup;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   visitas: visit[] = [];
 
-  constructor(private http: HttpClient, private userService: UserService) {
+  constructor(private http: HttpClient, private userService: UserService, private fb: FormBuilder) {
     this.dataSource = new MatTableDataSource<visit>([]);
   }
 
   ngOnInit() {
     this.currentUser = this.userService.getLoggedInUser();
+    this.createForm();
     this.getVisits();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.applySorting();
   }
 
-  applySorting() {
-    if (this.dataSource && this.dataSource.sort) {
-      this.dataSource.sort.sort({ id: 'visit_date', start: 'desc', disableClear: true });
-      this.dataSource.sort.sort({ id: 'check_in_time', start: 'desc', disableClear: true });
-    }
+  createForm() {
+    const today = new Date();
+    this.dateForm = this.fb.group({
+      firstDate: [today, [Validators.required, this.dateRangeValidator.bind(this)]],
+      endDate: [today, [Validators.required, this.dateRangeValidator.bind(this)]]
+    });
+  }
+
+  dateRangeValidator(control: any) {
+    const startDate = this.dateForm?.get('firstDate')?.value;
+    const endDate = this.dateForm?.get('endDate')?.value;
+    return startDate && endDate && endDate < startDate ? { dateRange: true } : null;
   }
 
   getVisits() {
+    if (this.dateForm.invalid) {
+      return;
+    }
+
+    const { firstDate, endDate } = this.dateForm.value;
+
     this.http.get<any>(`${this.apiURL}/visits`, {
       headers: {
         Authorization: `Bearer ${this.currentUser.token}`
+      },
+      params: {
+        start_date: firstDate.toISOString().split('T')[0],
+        end_date: endDate.toISOString().split('T')[0]
       }
     }).subscribe({
       next: (response) => {
         this.visitas = response;
+        this.visitas.sort((a, b) => {
+          const dateA = new Date(a.visit_date + 'T' + a.check_in_time);
+          const dateB = new Date(b.visit_date + 'T' + b.check_in_time);
+          return dateB.getTime() - dateA.getTime();
+        });
         this.dataSource.data = this.visitas;
       },
       error: (err) => {
