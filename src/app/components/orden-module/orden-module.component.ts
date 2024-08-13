@@ -45,7 +45,7 @@ export class OrdenModuleComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.currentUser = this.userService.getLoggedInUser();
     this.createForm();
-    this.getOrd();
+    //this.getOrd();
   }
 
   ngAfterViewInit() {
@@ -62,9 +62,11 @@ export class OrdenModuleComponent implements OnInit, AfterViewInit {
 
   createForm() {
     const today = new Date();
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     this.dateForm = this.fb.group({
-      firstDate: [today, [Validators.required, this.dateRangeValidator.bind(this)]],
-      endDate: [today, [Validators.required, this.dateRangeValidator.bind(this)]]
+      firstDate: [startOfMonth, [Validators.required, this.dateRangeValidator.bind(this)]],
+      endDate: [endOfMonth, [Validators.required, this.dateRangeValidator.bind(this)]]
     });
   }
 

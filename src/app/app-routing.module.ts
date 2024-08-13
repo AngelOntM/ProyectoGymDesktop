@@ -13,6 +13,8 @@ import { VisitasModuleComponent } from './components/visitas-module/visitas-modu
 import { AuthGuard } from './auth.guard';
 import { RoleGuard } from './role.guard';
 import { PerfilModuleComponent } from './components/perfil-module/perfil-module.component';
+import { VisitChartModuleComponent } from './components/visit-chart-module/visit-chart-module.component';
+import { OrdenChartModuleComponent } from './components/orden-chart-module/orden-chart-module.component';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
@@ -26,6 +28,8 @@ const routes: Routes = [
     { path: 'ordenAdd', component: AddOrdenComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
     { path: 'visitas', component: VisitasModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
     { path: 'perfil', component: PerfilModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
+    { path: 'reporteVisitas', component: VisitChartModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
+    { path: 'reporteOrdenes', component: OrdenChartModuleComponent, canActivate: [RoleGuard], data: { roles: ["Admin", "Empleado"] } },
   ]},
   { path: '**', redirectTo: '' }
 ];

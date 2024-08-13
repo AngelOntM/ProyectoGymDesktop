@@ -1,52 +1,52 @@
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/user.service';
+import { ApexChart, ApexNonAxisChartSeries, ApexDataLabels, ApexTitleSubtitle } from 'ng-apexcharts';
 import { environment } from 'src/enviroment/enviroment';
+import { UserService } from 'src/app/user.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-interface visit {
-  user_id: number;
-  visit_date: string;
-  check_in_time: string;
-  user: {
-    name: string;
-  }
-}
+export type ChartOptions = {
+  series: ApexNonAxisChartSeries; // Cambiar a ApexNonAxisChartSeries
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  labels: string[];
+  title: ApexTitleSubtitle;
+};
 
 @Component({
-  selector: 'app-visitas-module',
-  templateUrl: './visitas-module.component.html',
-  styleUrls: ['./visitas-module.component.css']
+  selector: 'app-visit-chart-module',
+  templateUrl: './visit-chart-module.component.html',
+  styleUrls: ['./visit-chart-module.component.css']
 })
-export class VisitasModuleComponent implements OnInit, AfterViewInit {
-  dataSource: MatTableDataSource<visit>;
-  myColumns: string[] = ['user_id', 'user', 'visit_date', 'check_in_time'];
-  currentUser: any;
+export class VisitChartModuleComponent implements OnInit {
+  public chartOptions: ChartOptions;
   private apiURL = environment.apiURL;
+  private currentUser: any;
   dateForm!: FormGroup;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  visitas: visit[] = [];
-
   constructor(private http: HttpClient, private userService: UserService, private fb: FormBuilder) {
-    this.dataSource = new MatTableDataSource<visit>([]);
+    // Inicializa con valores por defecto
+    this.chartOptions = {
+      series: [],
+      chart: {
+        type: 'pie',
+        height: 500 // Añadir altura predeterminada, opcional
+      },
+      labels: ['Sin datos'],
+      dataLabels: {
+        enabled: true
+      },
+      title: {
+        text: 'Visitas por Fecha'
+      }
+    };
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentUser = this.userService.getLoggedInUser();
     this.createForm();
-    //this.getVisits();
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.loadVisitData();
   }
 
   createForm() {
@@ -65,13 +65,11 @@ export class VisitasModuleComponent implements OnInit, AfterViewInit {
     return startDate && endDate && endDate < startDate ? { dateRange: true } : null;
   }
 
-  getVisits() {
+  loadVisitData() {
     if (this.dateForm.invalid) {
       return;
     }
-
     const { firstDate, endDate } = this.dateForm.value;
-
     this.http.get<any>(`${this.apiURL}/visits`, {
       headers: {
         Authorization: `Bearer ${this.currentUser.token}`
@@ -81,19 +79,20 @@ export class VisitasModuleComponent implements OnInit, AfterViewInit {
         end_date: endDate.toISOString().split('T')[0]
       }
     }).subscribe({
-      next: (response) => {
-        this.visitas = response;
-        this.visitas.sort((a, b) => {
-          const dateA = new Date(a.visit_date + 'T' + a.check_in_time);
-          const dateB = new Date(b.visit_date + 'T' + b.check_in_time);
-          return dateB.getTime() - dateA.getTime();
+      next: (data: any[]) => {
+        const visitCounts: { [key: string]: number } = {};
+
+        data.forEach(visit => {
+          const date = visit.visit_date;
+          visitCounts[date] = (visitCounts[date] || 0) + 1;
         });
-        this.dataSource.data = this.visitas;
+
+        this.chartOptions.series = Object.values(visitCounts); // Aquí se asignan los valores
+        this.chartOptions.labels = Object.keys(visitCounts);
       },
       error: (err) => {
         Swal.fire('Error', 'No se pudo cargar la lista de visitas', 'error');
       }
     });
   }
-
 }

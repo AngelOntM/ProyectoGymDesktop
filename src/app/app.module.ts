@@ -49,6 +49,9 @@ import { PaymentFormComponent } from './components/orden-module/payment-form/pay
 import { VisitasModuleComponent } from './components/visitas-module/visitas-module.component';
 import { PerfilModuleComponent } from './components/perfil-module/perfil-module.component';
 import { MatCardModule } from '@angular/material/card';
+import { VisitChartModuleComponent } from './components/visit-chart-module/visit-chart-module.component';
+import { OrdenChartModuleComponent } from './components/orden-chart-module/orden-chart-module.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -72,7 +75,9 @@ import { MatCardModule } from '@angular/material/card';
     AddOrdenComponent,
     PaymentFormComponent,
     VisitasModuleComponent,
-    PerfilModuleComponent
+    PerfilModuleComponent,
+    VisitChartModuleComponent,
+    OrdenChartModuleComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +102,8 @@ import { MatCardModule } from '@angular/material/card';
     MatNativeDateModule,
     MatSelectModule,
     MatAutocompleteModule,
-    MatCardModule
+    MatCardModule,
+    NgApexchartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
