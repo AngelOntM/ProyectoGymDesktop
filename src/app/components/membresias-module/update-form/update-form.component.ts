@@ -40,7 +40,7 @@ export class MembresiaUpdateFormComponent {
       price: this.data.price,
       duration_days: this.data.duration_days,
       size: this.data.size,
-      active: this.data.active === 1 ? true : false,
+      active: this.data.active === true ? true : false,
       description: this.data.description,
     });
   }

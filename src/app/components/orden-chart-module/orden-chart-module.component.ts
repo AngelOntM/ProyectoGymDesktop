@@ -85,11 +85,13 @@ export class OrdenChartModuleComponent implements OnInit {
         const earningsByDate: { [key: number]: number } = {}; // Usamos timestamps como claves
 
         data.forEach(order => {
-          const date = order.order_date.split(' ')[0]; // Extraemos solo la fecha, sin la hora
-          const timestamp = new Date(date).getTime(); // Convertimos la fecha a timestamp
-          const amount = parseFloat(order.total_amount);
-
-          earningsByDate[timestamp] = (earningsByDate[timestamp] || 0) + amount;
+          if(order.estado == "Pagada"){
+            const date = order.order_date.split(' ')[0]; // Extraemos solo la fecha, sin la hora
+            const timestamp = new Date(date).getTime(); // Convertimos la fecha a timestamp
+            const amount = parseFloat(order.total_amount);
+  
+            earningsByDate[timestamp] = (earningsByDate[timestamp] || 0) + amount;
+          }
         });
 
         // Convertimos los datos en el formato requerido por ApexCharts

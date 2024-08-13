@@ -38,7 +38,7 @@ export class ProductsUpdateFormComponent {
       price: this.data.price,
       stock: this.data.stock,
       discount: this.data.discount,
-      active: this.data.active === 1 ? true : false,
+      active: this.data.active === true ? true : false,
     });
   }
 
