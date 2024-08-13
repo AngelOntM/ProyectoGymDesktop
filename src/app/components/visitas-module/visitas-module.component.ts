@@ -83,6 +83,11 @@ export class VisitasModuleComponent implements OnInit, AfterViewInit {
     }).subscribe({
       next: (response) => {
         this.visitas = response;
+        this.visitas.forEach(element => {
+          if(element.user === null){
+            element.user = {name:"N/A"}
+          }          
+        });
         this.visitas.sort((a, b) => {
           const dateA = new Date(a.visit_date + 'T' + a.check_in_time);
           const dateB = new Date(b.visit_date + 'T' + b.check_in_time);
