@@ -22,29 +22,35 @@ export class EmployeeUpdateFormComponent {
   @ViewChild('videoElement', { static: false }) videoElement!: ElementRef;
   video!: HTMLVideoElement;
   isCameraReady: boolean = false;
+  user: any;
+  from: any;
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<EmployeeUpdateFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<EmployeeUpdateFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { user: any; from: any }
   ) {
+    this.user = data.user;
+    this.from = data.from;
     this.updateUserForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
       phone_number: ['', [Validators.required, Validators.pattern('^[0-9]{1,10}$')]],
       address: ['', [Validators.required, Validators.maxLength(60)]],
       date_of_birth: ['', Validators.required],
-      rol_id: ['', Validators.required]
+      rol_id: [{value:'', disabled:this.from}]
     });
-    
+
   }
 
   ngOnInit(){
     this.updateUserForm.patchValue({
-      name: this.data.name,
-      email: this.data.email,
-      phone_number: this.data.phone_number,
-      address: this.data.address,
-      date_of_birth: this.data.date_of_birth,
-      rol_id: this.data.rol_id === 1 ? 1 : 2
+      name: this.user.name,
+      email: this.user.email,
+      phone_number: this.user.phone_number,
+      address: this.user.address,
+      date_of_birth: this.user.date_of_birth,
+      rol_id: this.user.rol_id === 1 ? 1 : 2
     });
     this.startCamera();
   }
@@ -110,7 +116,9 @@ export class EmployeeUpdateFormComponent {
         formData.append('phone_number', this.updateUserForm.value.phone_number);
         formData.append('address', this.updateUserForm.value.address);
         formData.append('date_of_birth', formattedDate);
-        formData.append('rol_id', this.updateUserForm.get('rol_id')!.value);
+        if(this.from === false){
+          formData.append('rol_id', this.updateUserForm.get('rol_id')!.value);
+        }
         if(this.capturedPhoto){
           formData.append('face_image', this.capturedPhoto);
         }

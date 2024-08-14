@@ -103,7 +103,7 @@ export class PerfilModuleComponent implements OnInit {
   updateInfo(user: any) {
     const dialogRef = this.dialog.open(EmployeeUpdateFormComponent, {
       width: '800px',
-      data: user,
+      data: {user, from: true},
       disableClose: true
     });
   

@@ -89,6 +89,7 @@ export class LoginComponent {
               try {
                 const verifyResponse = await this.http.post<any>(`${this.apiURL}/verify-2fa`, body).toPromise();
                 const user = {
+                  id: response.user.id,
                   rol: response.user.rol.rol_name,
                   name: response.user.name,
                   token: verifyResponse.token,
