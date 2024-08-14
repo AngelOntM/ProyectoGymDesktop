@@ -30,6 +30,13 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="rol_id">
+          <mat-option [value]="1">Admin</mat-option>
+          <mat-option [value]="2">Empleado</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
     <div class="webcam-container">
       <video #videoElement class="webcam-video"></video>

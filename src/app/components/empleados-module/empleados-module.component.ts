@@ -14,6 +14,7 @@ interface Employee {
   id: number;
   name: string;
   email: string;
+  rol_name: string,
   phone_number: string;
   address: string;
   date_of_birth: string;
@@ -29,7 +30,7 @@ interface Employee {
 })
 export class EmpleadosModuleComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<Employee>;
-  myColumns: string[] = ['id', 'name', 'phone_number', 'email','actions'];
+  myColumns: string[] = ['id', 'name', 'phone_number', 'email', 'rol','actions'];
   currentUser: any;
   private apiURL = environment.apiURL;
 

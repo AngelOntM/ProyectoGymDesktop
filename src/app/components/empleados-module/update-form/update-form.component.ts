@@ -32,6 +32,7 @@ export class EmployeeUpdateFormComponent {
       phone_number: ['', [Validators.required, Validators.pattern('^[0-9]{1,10}$')]],
       address: ['', [Validators.required, Validators.maxLength(60)]],
       date_of_birth: ['', Validators.required],
+      rol_id: ['', Validators.required]
     });
     
   }
@@ -43,6 +44,7 @@ export class EmployeeUpdateFormComponent {
       phone_number: this.data.phone_number,
       address: this.data.address,
       date_of_birth: this.data.date_of_birth,
+      rol_id: this.data.rol_id === 1 ? 1 : 2
     });
     this.startCamera();
   }
@@ -108,6 +110,7 @@ export class EmployeeUpdateFormComponent {
         formData.append('phone_number', this.updateUserForm.value.phone_number);
         formData.append('address', this.updateUserForm.value.address);
         formData.append('date_of_birth', formattedDate);
+        formData.append('rol_id', this.updateUserForm.get('rol_id')!.value);
         if(this.capturedPhoto){
           formData.append('face_image', this.capturedPhoto);
         }
