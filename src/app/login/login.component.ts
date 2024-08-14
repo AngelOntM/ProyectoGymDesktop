@@ -69,6 +69,10 @@ export class LoginComponent {
                   Swal.showValidationMessage('Debe ingresar un código');
                   return;
                 }
+                if (code.length !== 6) {
+                  Swal.showValidationMessage('Debe ingresar un código de 6 dígitos');
+                  return;
+                }
                 return code;
               }
             });
