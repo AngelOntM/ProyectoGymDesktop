@@ -21,8 +21,8 @@ export class LoginComponent {
     private session: UserService
   ) {}
 
-  loginUser(): void {
-    if (this.email == "" || this.password == "") {
+  async loginUser(): Promise<void> {
+    if (this.email === "" || this.password === "") {
       Swal.fire({
         icon: 'error',
         title: 'Error de formulario',
@@ -52,37 +52,42 @@ export class LoginComponent {
 
     this.http.post<any>(`${this.apiURL}/login/employee`, credentials).subscribe({
       next: async (response) => {
-        if(response.user.rol_id === 1) {
-          const { value: code } = await Swal.fire({
-            title: 'Código 2FA requerido',
-            input: 'text',
-            inputLabel: 'Ingrese su código 2FA',
-            inputPlaceholder: 'Código 2FA',
-            showCancelButton: true,
-            confirmButtonText: 'Verificar',
-            cancelButtonText: 'Cancelar',
-            preConfirm: async (code) => {
-              if (!code) {
-                Swal.showValidationMessage('Debe ingresar un código');
-                return;
-              }
-              return code;
-            }
-          });
+        if (response.user.rol_id === 1) {
+          let validCode = false;
 
-          if (code) {
-            const codeAsInteger = parseInt(code, 10);
-            const body = { email:response.user.email, two_factor_code:codeAsInteger }
-            Swal.fire({
-              title: 'Verificando 2FA...',
-              text: 'Por favor espera un momento',
-              allowOutsideClick: false,
-              didOpen: () => {
-                Swal.showLoading();
+          while (!validCode) {
+            const { value: code } = await Swal.fire({
+              title: 'Código 2FA requerido',
+              input: 'text',
+              inputLabel: 'Ingrese su código 2FA',
+              inputPlaceholder: 'Código 2FA',
+              showCancelButton: true,
+              confirmButtonText: 'Verificar',
+              cancelButtonText: 'Cancelar',
+              preConfirm: async (code) => {
+                if (!code) {
+                  Swal.showValidationMessage('Debe ingresar un código');
+                  return;
+                }
+                return code;
               }
             });
-            this.http.post<any>(`${this.apiURL}/verify-2fa`, body).subscribe({
-              next: (verifyResponse) => {
+
+            if (code) {
+              const codeAsInteger = parseInt(code, 10);
+              const body = { email: response.user.email, two_factor_code: codeAsInteger };
+
+              Swal.fire({
+                title: 'Verificando 2FA...',
+                text: 'Por favor espera un momento',
+                allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                }
+              });
+
+              try {
+                const verifyResponse = await this.http.post<any>(`${this.apiURL}/verify-2fa`, body).toPromise();
                 const user = {
                   rol: response.user.rol.rol_name,
                   name: response.user.name,
@@ -99,18 +104,23 @@ export class LoginComponent {
                 }).then(() => {
                   this.router.navigateByUrl('/home/perfil');
                 });
-              },
-              error: (err) => {
+
+                validCode = true; // Código válido, salir del bucle
+              } catch (err) {
                 Swal.fire({
                   icon: 'error',
-                  title: 'Error de verificación 2FA',
-                  text: 'Error al verificar el código 2FA',
+                  title: 'Código 2FA incorrecto',
+                  text: 'El código 2FA ingresado es incorrecto, por favor intenta nuevamente.',
                 });
                 console.error(err);
+                // No establecer validCode como true para que el bucle continúe
               }
-            });
+            } else {
+              // El usuario canceló el input, salir del bucle
+              return;
+            }
           }
-        } else if(response.user.rol_id === 2) {
+        } else if (response.user.rol_id === 2) {
           const user = {
             rol: response.user.rol.rol_name,
             name: response.user.name,
