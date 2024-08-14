@@ -22,7 +22,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { EmpleadosModuleComponent } from './components/empleados-module/empleados-module.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RegisterFormComponent } from './components/clientes-module/register-form/register-form.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
@@ -52,6 +52,7 @@ import { MatCardModule } from '@angular/material/card';
 import { VisitChartModuleComponent } from './components/visit-chart-module/visit-chart-module.component';
 import { OrdenChartModuleComponent } from './components/orden-chart-module/orden-chart-module.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { AuthService } from './auth.service';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,13 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     MatCardModule,
     NgApexchartsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthService,
+      multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
